@@ -145,7 +145,7 @@ Game.prototype.start = function() {
     var id = msg.id;
     if(id == -1) {
     } else {
-      var player = Game.player(id);
+      var player = game.player(id);
       player.hurt();
     }
 
