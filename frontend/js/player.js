@@ -1,5 +1,5 @@
 var MAX_SPEED = 5;
-var FRICTION = 0.9;
+var FRICTION = 0.95;
 
 var Player = (function() {
   function Player(x, y) {
@@ -26,6 +26,8 @@ var Player = (function() {
   };
 
   Player.prototype.doPlayerFrame = function() {
+    this.vx *= FRICTION;
+    this.vy *= FRICTION;
   };
 
   Player.prototype.move = function(dx, dy) {
