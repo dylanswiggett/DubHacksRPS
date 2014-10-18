@@ -131,7 +131,7 @@ public class RuleImport {
 			return Collections.unmodifiableMap(ruleMap);
 		} else if (basic && ruleMap != null) {
 			return Collections.unmodifiableMap(ruleMap);
-		} else if (basic && metaMap == null) {
+		} else if (metaMap == null) {
 			System.out.println("here");
 			metaMap = new HashMap<String, Map<String, String>>();
 			metaMap = importMap(false);
