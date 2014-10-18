@@ -5,10 +5,9 @@ function Conn(ws, ee) {
 
   var self = this;
   this.socket.onmessage = function(msg) {
-    console.log(msg)
     var payload = JSON.parse(msg.data);
     console.log('received', payload);
-    if(typeof payload.id == 'Number') {
+    if(payload.evt == 'setid') {
       self.playerID = payload.id;
     }
     self.emitter.emitEvent(payload.evt, payload.data);
@@ -39,7 +38,11 @@ var Sockets = (function() {
 
     ws.onopen = function(a) {
       console.log("Opened connection");
-      d.resolve(new Conn(ws, emitter));
+      var conn = new Conn(ws, emitter);
+      conn.send('join');
+      conn.on('setid', function() {
+        d.resolve(conn);
+      });
     };
 
     ws.onerror = function(err) {
@@ -55,8 +58,3 @@ var Sockets = (function() {
   };
 
 })();
-
-Sockets.connect().then(function(connection) {
-  console.log("Got a connection object");
-  connection.send('join');
-}).catch(function(){console.error.apply(console, arguments)});
