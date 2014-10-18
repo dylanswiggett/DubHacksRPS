@@ -12,13 +12,14 @@ public class Player {
 	private double health;
 	private boolean alive;
 	private String type;
-	private double x, y;
+	private double x, y, vx, vy;
 	
 	public Player(WebSocket socket) {
 		this.socket = socket;
 		this.id = id_counter++;
 		nickname = Integer.toString(id);
 		x = y = 0;
+		type = "dead";
 	}
 	
 	public int getId() {
@@ -59,6 +60,11 @@ public class Player {
 		this.y = y;
 	}
 	
+	public void setVelocity(double vx, double vy) {
+		this.vx = vx;
+		this.vy = vy;
+	}
+	
 	public double getX() {
 		return x;
 	}
@@ -67,11 +73,21 @@ public class Player {
 		return y;
 	}
 	
+	public double getVX() {
+		return vx;
+	}
+	
+	public double getVY() {
+		return vy;
+	}
+	
 	public JSONObject getStatusData() {
 		JSONObject data = new JSONObject();
 		data.put("x", x);
 		data.put("y", y);
-		data.put("type", "dead");
+		data.put("vx", vx);
+		data.put("vy", vy);
+		data.put("type", type);
 		data.put("h", 0);
 		return data;
 	}
