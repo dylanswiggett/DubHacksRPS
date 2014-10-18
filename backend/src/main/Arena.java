@@ -32,7 +32,10 @@ public class Arena {
 		case "join":
 			p.sendMessage(new Message("setid", p.getId(), null));
 			System.out.println("Player connected: " + p.getId());
-			Message connectmsg = new Message("playerconnect", p.getId(), null);
+			JSONArray newpos = new JSONArray();
+			newpos.put(p.getX());
+			newpos.put(p.getY());
+			Message connectmsg = new Message("playerconnect", p.getId(), newpos);
 			for (Player player : players.values())
 				if (player != p)
 					player.sendMessage(connectmsg);

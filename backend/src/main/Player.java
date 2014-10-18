@@ -48,6 +48,14 @@ public class Player {
 		this.y = y;
 	}
 	
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	
 	public void sendMessage(Message msg) {
 		socket.send(msg.toString());
 	}
