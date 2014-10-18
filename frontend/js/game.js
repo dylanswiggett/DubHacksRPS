@@ -1,4 +1,3 @@
-
 function Game() {
   function forEach(f, thisVal) {
     for(var k in this) {
@@ -29,8 +28,31 @@ Game.prototype.start = function() {
     self.player().sendMessage(socket);
   }, 100);
 
+  setInterval(function() {
+    var epoch = 1413639775000;
+    var utc = Date.UTC();
+    var now = utc - epoch;
+
+    socket.send("t", {t:now});
+  }, 1000);
+
   //Tell key presses about game.
   keysSetGame(self);
+
+  self.on('playertypes', function(msg) {
+    console.log(msg);
+  })
+
+  self.on('playermetainfo', function(msg) {
+    console.log(msg);
+    var playable = playableTypes(msg.d);
+
+    var html = ''
+    playable.forEach(function(playableType) {
+      html += '<img src="assets/textures/players/'+playableType+'.png" alt="'+playableType+'"/>';
+    });
+    document.getElementById('type-selector').innerHTML = html;
+  });
 
   //Movement Events
   self.on('stopU', function() {
