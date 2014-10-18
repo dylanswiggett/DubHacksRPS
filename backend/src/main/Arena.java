@@ -145,6 +145,7 @@ public class Arena {
 			x = attack.getDouble("x");
 			y = attack.getDouble("y");
 			String dir = attack.getString("dir"); // 'u','d','l', or 'r'
+			System.out.println("Attack by " + p.getType());
 			Map<String, String> metaMap = RuleImport.getMap(false).get(p.getType());
 			String meleeType = metaMap.get("MeleeType");
 			String projectileType = metaMap.get("ProjectileType");
