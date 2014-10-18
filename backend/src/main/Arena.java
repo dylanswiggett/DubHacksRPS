@@ -111,6 +111,7 @@ public class Arena {
 						}
 					}
 					if (hitWall) continue;
+					System.out.println("HERE");
 					for (Player player : players.values()) {
 						if (player.getId() != proj.getShooterId() &&
 								player.getBoundingBox().intersect(proj.getBoundingBox())) {
