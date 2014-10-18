@@ -1,9 +1,26 @@
 <!doctype html>
 <html>
-<head></head>
+<head>
+<style>
+.int10 {
+  background-color: green;
+}
+
+.int-10 {
+  background-color: red;
+}
+
+.int0 {
+  background-color: yellow;
+}
+
+</style>
+</head>
 <body>
   <div>
     <canvas width=800 height=600 id="main-canvas"></canvas>
+  </div>
+  <div id="type-selector">
   </div>
   <script src="js/lib/EventEmitter.min.js"></script>
   <script src="js/lib/q.js"></script>
@@ -12,6 +29,7 @@
   <script src="js/input.js"></script>
   <script src="js/game.js"></script>
   <script src="js/projectile.js"></script>
+  <script src="js/gameinfo.js"></script>
   <script src="js/player.js"></script>
 
   <script>

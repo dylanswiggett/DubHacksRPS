@@ -33,7 +33,12 @@ function startRenderCycle(game, time) {
         ctx.fillRect(renderX + 12 + player.meleeDirX * 5 * player.meleeFrame,
                      renderY + 12 + player.meleeDirY * 5 * player.meleeFrame, 24, 24);
       }
-      ctx.fillRect(renderX, renderY, 48, 48);
+      var img = game.image(player.type);
+      if(img) {
+        ctx.drawImage(img, renderX, renderY, 48, 48);
+      } else {
+        ctx.fillRect(renderX, renderY, 48, 48);
+      }
       player.renderX = renderX;
       player.renderY = renderY;
     });
