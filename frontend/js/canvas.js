@@ -30,8 +30,8 @@ function startRenderCycle(game, time) {
         renderY = (player.y + player.renderY) / 2;
       }
       if(player.meleeFrame) {
-        ctx.fillRect(renderX + 12 + player.meleeDirX * 2 * player.meleeFrame,
-                     renderY + 12 + player.meleeDirY * 2 * player.meleeFrame, 24, 24);
+        ctx.fillRect(renderX + 12 + player.meleeDirX * 5 * player.meleeFrame,
+                     renderY + 12 + player.meleeDirY * 5 * player.meleeFrame, 24, 24);
       }
       ctx.fillRect(renderX, renderY, 48, 48);
       player.renderX = renderX;
