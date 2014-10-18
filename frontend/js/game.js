@@ -60,7 +60,6 @@ Game.prototype.start = function() {
 
   self.on('playermetainfo', function(msg) {
     var pmi = msg.d;
-    var playable = playableTypes(pmi);
     setPlayerMetaInfo(pmi);
 
     var typeSelector = document.getElementById('type-selector')
@@ -83,21 +82,23 @@ Game.prototype.start = function() {
       })
     }
 
-    playable.forEach(function(playableType) {
+    Object.keys(pmi).forEach(function(type) {
       var el = document.createElement('img');
       el.setAttribute('width', 48);
       el.setAttribute('height', 48);
-      el.setAttribute('src', "assets/textures/players/"+playableType+".png")
-      el.setAttribute('alt', playableType);
-      el.setAttribute('id', 'img-'+playableType);
-      el.setAttribute('title', playableType);
-      el.onmouseover = setClasses(playableType);
+      el.setAttribute('src', "assets/textures/players/"+type+".png")
+      el.setAttribute('alt', type);
+      el.setAttribute('id', 'img-'+type);
+      el.setAttribute('title', type);
+      el.onmouseover = setClasses(type);
       el.onmouseout = removeClasses;
       el.onclick = function(e) {
-        self.player().setType(e.target.getAttribute('alt'))
+        if(self.player().type === 'dead')
+          self.player().setType(e.target.getAttribute('alt'))
       }
-      self._images[playableType] = el;
-      typeSelector.appendChild(el);
+      self._images[type] = el;
+      if(pmi[type].Object === 'Player')
+        typeSelector.appendChild(el);
     });
   });
 
@@ -185,7 +186,11 @@ Game.prototype.start = function() {
     var player = self.player(msg.id);
     player.setPosition(msg.d.x, msg.d.y);
     player.setType(msg.d.type);
-    player.setHealth(msg.h);
+    player.setHealth(msg.d.h);
+  });
+
+  self.on('dead', function(msg) {
+    self.player(msg.id).setType('dead');
   });
 
   self.on('p', function(msg) {
