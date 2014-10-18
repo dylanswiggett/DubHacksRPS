@@ -66,8 +66,16 @@ public class Arena {
 	}
 	
 	private void strikePlayer(Player striker, Player struck, boolean ranged) {
-		// TODO: Damage/otherwise interact here! Then
-		// send updates to all players.
+		double interactionModifier = Double.parseDouble(
+				RuleImport.getMap(true).get(striker.getType()).get(struck.getType()));
+		Map<String,String> properties = RuleImport.getMap(false).get(striker.getType());
+		double damage = (20 + interactionModifier) * Double.parseDouble(
+				properties.get("DamageMultiplier"));
+		struck.removeHealth(damage);
+		// TODO: Handle special interactions, dying.
+		Message statusMsg = new Message("p", struck.getId(), struck.getStatusData());
+		for (Player player : players.values())
+			player.sendMessage(statusMsg);
 	}
 	
 	private void handleProjectiles() {
