@@ -264,7 +264,7 @@ public class Arena {
 					player.sendMessage(meleeMessage);
 				}
 				// TODO: Check collisions and do damage.
-			} else { // Projectile attack
+			} else if (!projectileType.isEmpty()){ // Projectile attack
 				Projectile proj = new Projectile(projectileType, x, y, dir.charAt(0), p.getId());
 				projectiles.add(proj);
 				Message projMessage = proj.getMessage();
