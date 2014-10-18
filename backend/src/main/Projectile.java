@@ -21,7 +21,7 @@ public class Projectile {
 		this.dir = dir;
 		this.sourceId = sourceId;
 		projectileId = idCount++;
-		chargeTime = 1;
+		chargeTime = .25;
 		double v = 200 + 100 * Double.parseDouble(
 				RuleImport.getMap(false).get(type).get("Velocity")); // TODO: Get this from type
 		switch (this.dir) {
