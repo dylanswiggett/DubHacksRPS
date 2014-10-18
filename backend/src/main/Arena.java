@@ -73,9 +73,10 @@ public class Arena {
 		// TODO: Threadsafe?
 		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
 				for (int i = 0; i < projectiles.size(); i++) {
 					Projectile proj = projectiles.get(i);
+					proj.step(.02);
 					for (Player player : players.values()) {
 						if (player.getId() != proj.getShooterId() &&
 								player.getBoundingBox().intersect(proj.getBoundingBox())) {

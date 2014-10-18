@@ -12,6 +12,9 @@ public class BoundingBox {
 	}
 	
 	public boolean intersect(BoundingBox other) {
-		return (other.x > this.x && other.x < this.x + this.width) && (other.y > this.y && other.y < this.y + this.height);
+		return (this.x < other.x + other.width)  &&
+			   (this.x + this.width > other.x)   && 
+			   (this.y < other.y + other.height) &&
+			   (this.y + this.height > other.y);
 	}
 }
