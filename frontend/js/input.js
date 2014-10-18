@@ -9,13 +9,26 @@ var bindings = {
   'w': 'fireU',
   's': 'fireD',
   'a': 'fireL',
-  'd': 'fireR'
+  'd': 'fireR',
+  ' ': 'special'
 };
+
+var key_press = {
+  w: true, s: true, a: true, d: true, ' ': true
+};
+
+var key_press_stream;
+function keysSetGame(ee) {
+  key_press_stream = ee;
+}
 
 document.onkeydown = function(e) {
   var binding = bindings[e.key];
-  if(binding) {
+  if(binding && !key_press[e.key]) {
     KeyStates[binding] = true;
+  } else if(binding && key_press[e.key] && KeyStates[binding] != 'pressed') {
+    key_press_stream.emit(binding);
+    KeyStates[binding] = 'pressed';
   }
 };
 

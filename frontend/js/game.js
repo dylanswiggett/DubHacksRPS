@@ -21,9 +21,13 @@ Game.prototype.start = function() {
   //start the rendering loop.
   requestAnimationFrame(startRenderCycle.bind(null, self));
 
+  //start game ticks
   setInterval(function() {
     self.player().sendMessage(socket);
   }, 100);
+
+  //Initialize key presses
+  keysSetGame(self);
 
   //Movement Events
   self.on('stopU', function() {
@@ -44,6 +48,37 @@ Game.prototype.start = function() {
 
   self.on('moveD', function() {
     self.player().accelerate(0, 1);
+  });
+
+  //Key presses
+  self.on('fireU', function() {
+    socket.send('directional', {
+      dir: 'u', x: self.player().x, y: self.player().y
+    });
+  });
+
+  self.on('fireD', function() {
+    socket.send('directional', {
+      dir: 'd', x: self.player().x, y: self.player().y
+    });
+  });
+
+  self.on('fireL', function() {
+    socket.send('directional', {
+      dir: 'l', x: self.player().x, y: self.player().y
+    });
+  });
+
+  self.on('fireR', function() {
+    socket.send('directional', {
+      dir: 'r', x: self.player().x, y: self.player().y
+    });
+  });
+
+  self.on('special', function() {
+    socket.send('special', {
+      x: self.player().x, y: self.player().y
+    });
   });
 
   self.on('arenainit', function(msg) {
