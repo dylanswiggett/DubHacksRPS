@@ -17,9 +17,8 @@ public class ArenaObject {
 		this.box = new BoundingBox(x, y, width, height);
 	}
 	
-	public boolean checkPlayerCollision(Player p) {
-		BoundingBox playerBox = p.getBoundingBox();
-		return box.intersect(playerBox);
+	public boolean checkCollision(BoundingBox box) {
+		return this.box.intersect(box);
 	}
 	
 	public Message getInitMessage() {

@@ -64,13 +64,41 @@ public class Arena {
 				player.sendMessage(disconnectmsg);
 	}
 	
+	private void strikePlayer(Player striker, Player struck, boolean ranged) {
+		// TODO: Damage/otherwise interact here! Then
+		// send updates to all players.
+	}
+	
 	private void handleProjectiles() {
-		// TODO: Update projectiles over time, and check collisions.
-		// Watch out for race conditions here!
-		// Send a projectile destroy message when necessary.
+		// TODO: Threadsafe?
 		while (true) {
 			try {
-				Thread.sleep(10);
+				Thread.sleep(20);
+				for (int i = 0; i < projectiles.size(); i++) {
+					Projectile proj = projectiles.get(i);
+					proj.step(.02);
+					for (Player player : players.values()) {
+						if (player.getId() != proj.getShooterId() &&
+								player.getBoundingBox().intersect(proj.getBoundingBox())) {
+							JSONObject strikeObj = new JSONObject();
+							strikeObj.put("x", proj.getX());
+							strikeObj.put("y", proj.getY());
+							strikeObj.put("projectileid", proj.getId());
+							Message strikeMessage = new Message(
+									"projhit", player.getId(), strikeObj);
+							Player striker = null;
+							for (Player player2 : players.values()) {
+								player2.sendMessage(strikeMessage);
+								if (player2.getId() == proj.getShooterId())
+									striker = player2;
+							}
+							strikePlayer(striker, player, true);
+							projectiles.remove(i);
+							i--;
+							break;
+						}
+					}
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

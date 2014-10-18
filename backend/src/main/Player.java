@@ -93,7 +93,7 @@ public class Player {
 	}
 	
 	public BoundingBox getBoundingBox() {
-		return new BoundingBox(x, y, 1, 1);
+		return new BoundingBox(x + 4, y + 4, 40, 40);
 	}
 	
 	public void sendMessage(Message msg) {
