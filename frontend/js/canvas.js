@@ -19,7 +19,7 @@ function startRenderCycle(game, time) {
     ctx.fillStyle = "rgb(200,0,0)";
 
     var now = currentServerTime();
-    ctx.fillRect(now%WIDTH,0,5, 10);
+    ctx.fillRect(now%WIDTH,0,5, 20);
 
 
 
