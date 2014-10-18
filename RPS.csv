@@ -1,0 +1,16 @@
+Type,Combo,Style,Rock,Paper,Scissors,Fire,Water,Air,Cat,Elephant,Mouse,Laser,Cloud,Person,Friends,Firetruck,Origami
+Rock,NA,Tank,0,,,,,,,,,,,,,,
+Paper,NA,Evasive,10,0,,,,,,,,,,,,,
+Scissors,NA,Fighter,-10,10,0,,,,,,,,,,,,
+Fire,NA,Fighter,-10,10,10,0,,,,,,,,,,,
+Water,NA,Tank,10,-10,10,10,0,,,,,,,,,,
+Air,NA,Evasive,-10,10,0,-10,10,0,,,,,,,,,
+Cat,NA,Fighter,-10,10,-10,-10,-10,10,0,,,,,,,,
+Elephant,NA,Tank,10,-10,10,-10,10,10,10,0,,,,,,,
+Mouse,NA,Evasive,-10,10,-10,-10,-10,10,-10,10,0,,,,,,
+Laser,NA,Evasive,10,10,10,-10,-10,0,10,0,10,-10,,,,,
+Cloud,NA,Evasive,-10,10,0,10,0,0,-10,10,10,-10,0,,,,
+Person,NA,Fighter,-10,10,10,-10,-10,10,10,-10,10,-10,-10,0,,,
+Friends,Person + Person,Fighter,-10,10,10,10,-10,10,10,10,10,-10,10,10,0,,
+Firetruck,Elephant+Water,Tank,10,10,-10,10,0,-10,10,0,10,-10,0,-10,-10,0,
+Origami,Mouse+Paper,Evasive,10,0,10,-10,10,10,10,-10,0,-10,10,10,10,10,0
