@@ -145,7 +145,7 @@ public class RuleImport {
 	
 	public static JSONObject ruleMapToJSON() {
 		JSONObject obj = new JSONObject();
-		obj.put("evt", "playerTypes");
+		obj.put("evt", "playertypes");
 		obj.put("id", -1);
 		
 		JSONObject data = new JSONObject();
@@ -167,7 +167,7 @@ public class RuleImport {
 	
 	public static JSONObject metaMapToJSON() {
 		JSONObject obj = new JSONObject();
-		obj.put("evt", "playerMetaInfo");
+		obj.put("evt", "playermetainfo");
 		obj.put("id", -1);
 		
 		JSONObject data = new JSONObject();
