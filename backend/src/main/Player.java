@@ -94,7 +94,7 @@ public class Player {
 		data.put("vx", vx);
 		data.put("vy", vy);
 		data.put("type", type);
-		data.put("h", 0);
+		data.put("h", health);
 		return data;
 	}
 	
