@@ -63,7 +63,10 @@ Game.prototype.start = function() {
 
   self.on('p', function(msg) {
     var player = self.player(msg.id);
-    if(msg.id != self._playerID) player.setPosition(msg.d.x, msg.d.y);
+    if(msg.id != self._playerID) {
+      player.setPosition(msg.d.x, msg.d.y);
+      player.setVelocity(msg.d.vx, msg.d.vy);
+    }
     player.setType(msg.d.type);
     player.setHealth(msg.h);
   });
