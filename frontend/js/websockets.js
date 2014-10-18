@@ -1,3 +1,36 @@
+function Conn(ws, ee) {
+  this.socket = ws;
+  this.emitter = ee;    
+  this.playerID = -1;
+
+  var self = this;
+  this.socket.onmessage = function(msg) {
+    console.log(msg)
+    var payload = JSON.parse(msg.data);
+    console.log('received', payload);
+    if(typeof payload.id == 'Number') {
+      self.playerID = payload.id;
+    }
+    self.emitter.emitEvent(payload.evt, payload.data);
+  };
+}
+
+Conn.prototype = {};
+
+Conn.prototype.on = function(type, f) {
+  return this.emitter.addListener(type, f);
+};
+
+Conn.prototype.send = function(type, data) {
+  var msg = JSON.stringify({
+    evt: type,
+    id: this.playerID,
+    d: data || {}
+  });
+  console.log("sending", type, msg);
+  this.socket.send(msg);
+};
+
 var Sockets = (function() {
   function connect() {
     var d = Q.defer()
@@ -5,7 +38,8 @@ var Sockets = (function() {
     var emitter = new EventEmitter();
 
     ws.onopen = function(a) {
-      d.resolve(new Connection(ws, emitter));
+      console.log("Opened connection");
+      d.resolve(new Conn(ws, emitter));
     };
 
     ws.onerror = function(err) {
@@ -20,36 +54,9 @@ var Sockets = (function() {
     connect: connect
   };
 
-  function Connection(ws, ee) {
-    this.playerID = -1;
-    var self = this;
-    this.socket.onmessage = function(msg) {
-      var payload = JSON.parse(msg.data);
-      if(typeof payload.id == 'Number') {
-        self.playerID = payload.id;
-      }
-      this.emitter.emitEvent(payload.evt, payload.data);
-    };
-    this.socket = ws;
-    this.emitter = ee;
-  }
-
-  Connection.prototype.on = function(type, f) {
-    return this.emitter.addListener(type, f);
-  };
-
-  Connection.prototype.send(type, data) {
-    this.socket.send(JSON.stringify({
-      evt: type,
-      id: this.playerID,
-      d: data || null
-    }));
-  };
-
 })();
 
-
-
 Sockets.connect().then(function(connection) {
+  console.log("Got a connection object");
   connection.send('join');
-}).catch(console.error);
+}).catch(function(){console.error.apply(console, arguments)});
