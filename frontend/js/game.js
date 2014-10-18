@@ -29,7 +29,7 @@ Game.prototype.start = function() {
     self.player().sendMessage(socket);
   }, 100);
 
-  //Initialize key presses
+  //Tell key presses about game.
   keysSetGame(self);
 
   //Movement Events
@@ -116,7 +116,7 @@ Game.prototype.start = function() {
   });
 
   self.on('melee', function(msg) {
-    self.player(msg.id).startMelee(msg.dir);
+    self.player(msg.id).startMelee(msg.d.dir);
   });
 
   self.on('projectile', function(msg) {
@@ -146,7 +146,7 @@ Game.prototype.player = function(id) {
     } else {
       console.log("Player not connected yet!");
       function noop(){}
-      return {doPlayerFrame: noop, sendMessage: noop};
+      return {doPlayerFrame: noop, sendMessage: noop, accelerate: noop};
     }
   }
   return this._players[id] || (this._players[id] = new Player());

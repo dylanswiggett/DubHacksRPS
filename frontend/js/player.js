@@ -7,7 +7,7 @@ var Player = (function() {
     this.vy = 0;
     this.x = x;
     this.y = y;
-    this.type = 'rock';
+    this.type = 'Rock';
 
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
@@ -54,7 +54,7 @@ var Player = (function() {
   };
 
   Player.prototype.sendMessage = function(connection) {
-      connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy, type:this.type});
+      connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy, type:'Rock'});
       this.doSend = false;
   };
 
@@ -68,6 +68,7 @@ var Player = (function() {
 
   Player.prototype.startMelee = function(dir) {
     this.meleeFrame = 10;
+    console.log(dir)
     this.meleeDirX = (dir == 'u' || dir == 'd') ? 0 : (dir == 'l' ? -1 : 1);
     this.meleeDirY = (dir == 'l' || dir == 'r') ? 0 : (dir == 'u' ? -1 : 1)
   };
