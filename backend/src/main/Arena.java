@@ -24,10 +24,10 @@ public class Arena {
 		arenaObjects = new ArrayList<>();
 		projectiles = new ArrayList<>();
 		
-		designArena();
-		
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
+		
+		designArena();
 		
 		new Thread() {
 			public void run() {
@@ -45,7 +45,10 @@ public class Arena {
 	
 	private void designArena() {
 		arenaObjects.clear();
-		// TODO: Make the arena cool and stuff.
+		arenaObjects.add(new ArenaObject("Wall", 0, 0, 10, height));
+		arenaObjects.add(new ArenaObject("Wall", 0, 0, width, 10));
+		arenaObjects.add(new ArenaObject("Wall", width, 0, 10, height));
+		arenaObjects.add(new ArenaObject("Wall", 0, height, width, 10));
 	}
 	
 	public void addPlayer(Player p, WebSocket playerSocket) {
