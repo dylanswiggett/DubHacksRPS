@@ -10,7 +10,7 @@ var bindings = {
   's': 'fireD',
   'a': 'fireL',
   'd': 'fireR'
-}
+};
 
 document.onkeydown = function(e) {
   var binding = bindings[e.key];
@@ -26,19 +26,12 @@ document.onkeyup = function(e) {
   }
 };
 
-
-Player = {x: 0, y: 0};
-function processCurrentKeyStates() {
-  if(KeyStates.moveL) {
-    Player.x -= 1
+function currentlyDownKeys() {
+  var down = [];
+  for(var k in KeyStates) {
+    if(KeyStates[k] === true) {
+      down.push(k);
+    }
   }
-  if(KeyStates.moveR) {
-    Player.x += 1
-  }
-  if(KeyStates.moveD) {
-    Player.y += 1
-  }
-  if(KeyStates.moveU) {
-    Player.y -= 1
-  }
+  return down;
 }

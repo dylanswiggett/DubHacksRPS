@@ -2,15 +2,15 @@ function Conn(ws, ee) {
   this.socket = ws;
   this.emitter = ee;    
   this.playerID = -1;
+  this.queue = [];
 
   var self = this;
   this.socket.onmessage = function(msg) {
     var payload = JSON.parse(msg.data);
-    console.log('received', payload);
     if(payload.evt == 'setid') {
       self.playerID = payload.id;
     }
-    self.emitter.emitEvent(payload.evt, payload.data);
+    self.emitter.emit(payload.evt, payload);
   };
 }
 
@@ -26,31 +26,39 @@ Conn.prototype.send = function(type, data) {
     id: this.playerID,
     d: data || {}
   });
-  console.log("sending", type, msg);
-  this.socket.send(msg);
+  if(this.connected) {
+    this.socket.send(msg);
+  } else {
+    this.queue.push(msg);
+  }
+};
+
+Conn.prototype.flushQueue = function() {
+  var self = this;
+  this.queue.forEach(function(msg) {
+    self.socket.send(msg);
+  });
+  this.queue = [];
 };
 
 var Sockets = (function() {
-  function connect() {
+  function connect(emitter) {
     var d = Q.defer()
-    var ws = new WebSocket("ws://128.95.62.197:1337/", 'rps');
-    var emitter = new EventEmitter();
+    var ws = new WebSocket("ws://146.148.53.86:1337/", 'rps');
+    var conn = new Conn(ws, emitter);
 
     ws.onopen = function(a) {
-      console.log("Opened connection");
-      var conn = new Conn(ws, emitter);
-      conn.send('join');
-      conn.on('setid', function() {
-        d.resolve(conn);
-      });
+      conn.connected = true;
+      conn.flushQueue();
+      console.log("Successful connection");
     };
 
     ws.onerror = function(err) {
-      d.reject(err);
       console.error(err);
+      throw err;
     };
 
-    return d.promise;
+    return conn;
   }
 
   return {
