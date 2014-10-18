@@ -18,7 +18,17 @@ function startRenderCycle(game, time) {
 
     game.players().forEach(function(player) {
       player.doFrame();
-      ctx.fillRect(player.x, player.y, 20, 20);
+      var renderX, renderY;
+      if(player.renderedX == null && player.renderedY == null) {
+        renderX = player.x;
+        renderY = player.y;
+      } else {
+        renderX = (player.x + renderX) / 2;
+        renderY = (player.y + renderY) / 2;
+      }
+      ctx.fillRect(renderX, renderY, 48, 48);
+      player.renderX = renderX;
+      player.renderY = renderY;
     });
     
 
