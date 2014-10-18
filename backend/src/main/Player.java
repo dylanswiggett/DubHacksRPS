@@ -13,6 +13,7 @@ public class Player {
 	private boolean alive;
 	private String type;
 	private double x, y, vx, vy;
+	boolean ready;
 	
 	public Player(WebSocket socket) {
 		this.socket = socket;
@@ -20,6 +21,7 @@ public class Player {
 		nickname = Integer.toString(id);
 		x = y = 100;
 		type = "dead";
+		ready = false;
 	}
 	
 	public int getId() {
@@ -28,6 +30,10 @@ public class Player {
 	
 	public String getNickname() {
 		return nickname;
+	}
+	
+	public void isReady() {
+		ready = true;
 	}
 	
 	public void setNickname(String nick) {
@@ -111,6 +117,7 @@ public class Player {
 	}
 	
 	public void sendMessage(Message msg) {
-		socket.send(msg.toString());
+		if (ready)
+			socket.send(msg.toString());
 	}
 }

@@ -154,6 +154,7 @@ public class Arena {
 			 * the game.
 			 */
 			// Send current arena state
+			p.isReady();
 			p.sendMessage(RuleImport.ruleMapMessage());
 			p.sendMessage(RuleImport.metaMapMessage());
 			p.sendMessage(getArenaInitMessage());
