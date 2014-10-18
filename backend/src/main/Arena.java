@@ -235,7 +235,7 @@ public class Arena {
 					attackX += 48;
 					break;
 				case 'l':
-					attackY -= 48;
+					attackX -= 48;
 					break;
 				}
 				BoundingBox attackBox = new BoundingBox(attackX, attackY, 48, 48);
