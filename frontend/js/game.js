@@ -210,6 +210,7 @@ Game.prototype.start = function() {
     projectile.setPosition(msg.d.x, msg.d.y);
     projectile.setVelocity(msg.d.vx, msg.d.vy);
     projectile.setType(msg.d.type);
+    projectile.doFrame(currentServerTime() - msg.d.starttime);
   });
 
   self.on('areaattack', function(msg) {

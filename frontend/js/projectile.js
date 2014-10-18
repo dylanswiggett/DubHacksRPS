@@ -5,7 +5,8 @@ function Projectile(player) {
   this.x = 0;
   this.y = 0;
   this.type = null;
-  
+  this.charge = 1;
+
   var letters = '0123456789ABCDEF'.split('');
   var color = '#';
   for (var i = 0; i < 6; i++ ) {
@@ -16,8 +17,12 @@ function Projectile(player) {
 }
 
 Projectile.prototype.doFrame = function(dt) {
-  this.x += this.vx * dt / 1000;
-  this.y += this.vy * dt / 1000;
+  if(this.charge > 0) {
+    this.charge -= dt;
+  } else {
+    this.x += this.vx * dt / 1000;
+    this.y += this.vy * dt / 1000;
+  }
 };
 
 Projectile.prototype.setPosition = function(x, y) {

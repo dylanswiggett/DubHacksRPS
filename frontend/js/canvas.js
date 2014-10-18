@@ -21,9 +21,6 @@ function startRenderCycle(game, time) {
     var now = currentServerTime();
     ctx.fillRect(now%WIDTH,0,5, 20);
 
-
-
-
     game.player().doPlayerFrame(dt);
     game.players().forEach(function(player) {
       ctx.fillStyle = player.color;
