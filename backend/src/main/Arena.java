@@ -66,6 +66,8 @@ public class Arena {
 	}
 	
 	private void strikePlayer(Player striker, Player struck, boolean ranged) {
+		if (striker.getType().equals("dead") || struck.getType().equals("dead"))
+			return;
 		double interactionModifier = Double.parseDouble(
 				RuleImport.getMap(true).get(striker.getType()).get(struck.getType()));
 		Map<String,String> properties = RuleImport.getMap(false).get(striker.getType());
@@ -264,7 +266,7 @@ public class Arena {
 					player.sendMessage(meleeMessage);
 				}
 				// TODO: Check collisions and do damage.
-			} else { // Projectile attack
+			} else if (!projectileType.isEmpty()){ // Projectile attack
 				Projectile proj = new Projectile(projectileType, x, y, dir.charAt(0), p.getId());
 				projectiles.add(proj);
 				Message projMessage = proj.getMessage();
