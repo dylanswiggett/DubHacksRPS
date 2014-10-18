@@ -66,6 +66,8 @@ public class Arena {
 	}
 	
 	private void strikePlayer(Player striker, Player struck, boolean ranged) {
+		if (striker.getType().equals("dead") || struck.getType().equals("dead"))
+			return;
 		double interactionModifier = Double.parseDouble(
 				RuleImport.getMap(true).get(striker.getType()).get(struck.getType()));
 		Map<String,String> properties = RuleImport.getMap(false).get(striker.getType());
