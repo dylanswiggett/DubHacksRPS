@@ -42,10 +42,8 @@ var Player = (function() {
   };
 
   Player.prototype.sendMessage = function(connection) {
-    if(this.doSend) {
       connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy});
       this.doSend = false;
-    }
   };
 
   Player.prototype.setType = function(type) {

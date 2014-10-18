@@ -28,6 +28,10 @@ Game.prototype.start = function() {
   }, 100);
 
   //Movement Events
+  self.on('stopU', function() {
+    self.player().send()
+  });
+
   self.on('moveL', function() {
     self.player().accelerate(-1, 0);
   });
