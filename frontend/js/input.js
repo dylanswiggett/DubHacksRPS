@@ -11,7 +11,7 @@ var bindings = {
   'a': 'fireL',
   'd': 'fireR',
   'W': 'fireU',
-  'S': 'fireS',
+  'S': 'fireD',
   'A': 'fireL',
   'D': 'fireR',
   ' ': 'special'
