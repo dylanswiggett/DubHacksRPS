@@ -227,7 +227,7 @@ public class Arena {
 				}
 				BoundingBox attackBox = new BoundingBox(attackX, attackY, 48, 48);
 				for (Player player : players.values()) {
-					if (player != p && p.getBoundingBox().intersect(attackBox)) {
+					if (player != p && player.getBoundingBox().intersect(attackBox)) {
 						JSONObject hitObj = new JSONObject();
 						hitObj.put("x", x);
 						hitObj.put("y", y);
