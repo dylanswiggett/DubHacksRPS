@@ -143,7 +143,7 @@ public class RuleImport {
 		
 	}
 	
-	public static Message ruleMapToJSON() {		
+	public static Message ruleMapMessage() {		
 		JSONObject data = new JSONObject();
 		Set<String> types = ruleMap.keySet();
 		for (String type : types) {
@@ -159,7 +159,7 @@ public class RuleImport {
 		return new Message("playertypes", -1, data);
 	}
 	
-	public static Message metaMapToJSON() {
+	public static Message metaMapMessage() {
 		JSONObject data = new JSONObject();
 		Set<String> types = metaMap.keySet();
 		for (String type : types) {
