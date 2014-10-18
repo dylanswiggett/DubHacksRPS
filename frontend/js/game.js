@@ -15,6 +15,13 @@ function Game() {
   this._eventStream = new EventEmitter();
 }
 
+var serverTimeDelta = 0;
+function currentServerTime() {
+  return Date.now() - serverTimeDelta;
+}
+
+var scheduledTime = Date.now() + 20000;
+
 Game.prototype.start = function() {
   var self = this;
 
@@ -37,9 +44,19 @@ Game.prototype.start = function() {
   //Tell key presses about game.
   keysSetGame(self);
 
-  var min_rtt = Math.HUGE
+  var min_rtt = 1e99;
   self.on('sync', function(msg) { 
-    var rtt = Date.now() - msg.d.you;
+    var now = Date.now();
+    var rtt = now - msg.d.you;
+    if(rtt < min_rtt) {
+      min_rtt = rtt;
+      var bestServerTime = msg.d.me + rtt / 2;
+      serverTimeDelta = now - bestServerTime;
+    }
+  });
+
+  self.on('scheduletest', function(msg) {
+    scheduledTime = msg.d.when;
   });
 
   self.on('playertypes', function(msg) {
@@ -79,7 +96,8 @@ Game.prototype.start = function() {
       el.setAttribute('height', 48);
       el.setAttribute('src', "assets/textures/players/"+playableType+".png")
       el.setAttribute('alt', playableType);
-      el.setAttribute('id', 'img-'+playableType)
+      el.setAttribute('id', 'img-'+playableType);
+      el.setAttribute('title', playableType);
       el.onmouseover = setClasses(playableType);
       el.onmouseout = removeClasses;
       el.onclick = function(e) {
@@ -152,6 +170,11 @@ Game.prototype.start = function() {
     }
 
     self.removeProjectile(msg.d.projectileid);
+  });
+
+  self.on('meleehit', function(msg) {
+    var player = game.player(msg.id);
+    player.hurt();
   });
 
   self.on('arenainit', function(msg) {

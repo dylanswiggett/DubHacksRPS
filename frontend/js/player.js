@@ -36,7 +36,6 @@ var Player = (function() {
     this.vx *= FRICTION;
     this.vy *= FRICTION;
 
-    console.log("player", Player.prototype.game, this instanceof Player)
     var walls = this.game().walls();
 
     for(var i = 0; i < walls.length; i++) {
