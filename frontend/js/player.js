@@ -2,12 +2,16 @@ var MAX_SPEED = 600;
 var FRICTION = 0.95;
 
 var Player = (function() {
-  function Player(x, y) {
+  function Player(game) {
     this.vx = 0;
     this.vy = 0;
-    this.x = x;
-    this.y = y;
+    this.width = 48;
+    this.height = 48;
     this.type = 'Rock';
+    this._game = game;
+
+    this.didOverlapX = [];
+    this.didOverlapY = [];
 
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
@@ -31,6 +35,34 @@ var Player = (function() {
   Player.prototype.doPlayerFrame = function(dt) {
     this.vx *= FRICTION;
     this.vy *= FRICTION;
+
+    console.log("player", Player.prototype.game, this instanceof Player)
+    var walls = this.game().walls();
+
+    for(var i = 0; i < walls.length; i++) {
+      var wall = walls[i];
+      //COLLIDE THINGS
+      var newX = this.x + this.vx * dt / 1000;
+      var newY = this.y + this.vy * dt / 1000;
+
+      var overlapX = (newX < wall.x + wall.w)  &&
+         (newX + this.width > wall.x);
+      var overlapY = (newY < wall.y + wall.h) &&
+         (newY + this.height > wall.y);
+
+      if(overlapX && overlapY) {
+        if(!this.didOverlapX[i]) {
+          this.vx = 0;
+          overlapX = false;
+        }
+        if(!this.didOverlapY[i]) {
+          this.vy = 0;
+          overlapY = false;
+        }
+      }
+      this.didOverlapX[i] = overlapX;
+      this.didOverlapY[i] = overlapY;
+    }
   };
 
   Player.prototype.move = function(dx, dy) {
@@ -77,6 +109,11 @@ var Player = (function() {
   Player.prototype.hurt = function() {
     this.hurtFrame = 10;
   }
+
+  Player.prototype.game = function(g) {
+    if(g) return this._game = g;
+    else return this._game;
+  };
 
   return Player;
 })();
