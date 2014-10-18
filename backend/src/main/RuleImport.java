@@ -20,7 +20,7 @@ public class RuleImport {
 	private static Map<String, Map<String, String>> ruleMap = null;
 	private static final String filePath = "../RPS.csv";
 	
-	private static Map<String, Map<String, String>> importMap() {
+	private static Map<String, Map<String, String>> importMap(boolean mirror) {
 		Path file = Paths.get(filePath);
 		
 		Charset charset = Charset.forName("US-ASCII");
@@ -51,31 +51,33 @@ public class RuleImport {
 			System.err.format("IOException: %s%n", x);
 		}
 		
-		Set<String> keys = ruleMap.keySet();
-		for (String key : keys) {
-			Map<String, String> rowRuleMap = ruleMap.get(key);
-			Set<String> rowKeys = rowRuleMap.keySet();
-			for (String rowKey : rowKeys) {
-				String ruleValue = rowRuleMap.get(rowKey);
-				if (ruleValue.equals("")) {
-					Map<String, String> otherRowRuleMap = ruleMap.get(rowKey);
-					String otherRowRuleValue = otherRowRuleMap.get(key);
-					int otherRowRuleNum = Integer.parseInt(otherRowRuleValue);
-					otherRowRuleNum *= -1;
-					String newRuleValue = String.valueOf(otherRowRuleNum);
-					rowRuleMap.put(rowKey, newRuleValue);
+		if (mirror) {
+			Set<String> keys = ruleMap.keySet();
+			for (String key : keys) {
+				Map<String, String> rowRuleMap = ruleMap.get(key);
+				Set<String> rowKeys = rowRuleMap.keySet();
+				for (String rowKey : rowKeys) {
+					String ruleValue = rowRuleMap.get(rowKey);
+					if (ruleValue.equals("")) {
+						Map<String, String> otherRowRuleMap = ruleMap.get(rowKey);
+						String otherRowRuleValue = otherRowRuleMap.get(key);
+						int otherRowRuleNum = Integer.parseInt(otherRowRuleValue);
+						otherRowRuleNum *= -1;
+						String newRuleValue = String.valueOf(otherRowRuleNum);
+						rowRuleMap.put(rowKey, newRuleValue);
+					}
 				}
+				ruleMap.put(key, rowRuleMap);
 			}
-			ruleMap.put(key, rowRuleMap);
 		}
 		
 		return ruleMap;
 	}
 	
-	public static Map<String, Map<String, String>> getMap() {
+	public static Map<String, Map<String, String>> getMap(boolean mirror) {
 		if (ruleMap == null) {
 			ruleMap = new HashMap<String, Map<String, String>>();
-			ruleMap = importMap();
+			ruleMap = importMap(mirror);
 		}
 		return Collections.unmodifiableMap(ruleMap);
 	}
