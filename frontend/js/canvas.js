@@ -20,6 +20,15 @@ function startRenderCycle(game, time) {
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillStyle = "rgb(200,0,0)";
 
+    function rotateAndPaintImage ( context, image, angleInRad , positionX, positionY, axisX, axisY ) {
+      context.save();
+      context.translate( positionX + axisX/2, positionY + axisY/2);
+      context.rotate( angleInRad );
+      context.translate( axisX/2, axisY/2 );
+      context.drawImage( image, -axisX, -axisY );
+      context.restore();
+    }
+
     game.player().doPlayerFrame(dt);
     game.players().forEach(function(player) {
       ctx.fillStyle = player.color;
@@ -35,14 +44,6 @@ function startRenderCycle(game, time) {
       if(player.meleeFrame) {
         var img = game.image(player.getMeleeType());
         if(img) {
-          function rotateAndPaintImage ( context, image, angleInRad , positionX, positionY, axisX, axisY ) {
-            context.save();
-            context.translate( positionX + axisX/2, positionY + axisY/2);
-            context.rotate( angleInRad );
-            context.translate( axisX/2, axisY/2 );
-            context.drawImage( image, -axisX, -axisY );
-            context.restore();
-          }
           var angle;
           if(player.meleeDirX == -1) {
             angle = Math.PI;
@@ -90,6 +91,16 @@ function startRenderCycle(game, time) {
       var img = game.image(proj.type);
       ctx.fillStyle = 'black';
       proj.doFrame(dt);
+      var angle;
+      if(proj.vy < 0) {
+        angle = 3*Math.PI/2;
+      } else if(proj.vy > 0) {
+        angle = Math.PI/2;
+      } else if(proj.vx < 0) {
+        angle = Math.PI;
+      } else if(proj.vx > 0) {
+        angle = 0;
+      }
 
       var renderX, renderY;
       if(proj.renderX == null && proj.renderY == null) {
@@ -101,7 +112,8 @@ function startRenderCycle(game, time) {
       }
 
       if(img) {
-        ctx.drawImage(img, renderX, renderY, 20, 20);
+        rotateAndPaintImage(ctx, img, angle, renderX, renderY, 20, 20); 
+        //ctx.drawImage(img, renderX, renderY, 20, 20);
       } else {
         ctx.fillRect(renderX, renderY, 20, 20);
       }
