@@ -56,7 +56,8 @@ public class Player {
 	}
 	
 	public void setType(String type) {
-		if (!type.equals(this.type)) {
+		if (type.compareTo(this.type) != 0) {
+			System.out.println("Type was " + type);
 			this.type = type;
 			if (RuleImport.getMap(false).containsKey(type)) {
 				this.health =

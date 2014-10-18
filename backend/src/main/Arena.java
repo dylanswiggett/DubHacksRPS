@@ -110,7 +110,7 @@ public class Arena {
 							break;
 						}
 					}
-					if (hitWall) break;
+					if (hitWall) continue;
 					for (Player player : players.values()) {
 						if (player.getId() != proj.getShooterId() &&
 								player.getBoundingBox().intersect(proj.getBoundingBox())) {
