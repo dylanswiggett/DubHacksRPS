@@ -97,6 +97,7 @@ var Player = (function() {
       this.type = type;
       this.getMaxHealth(true);
       this.getMeleeType(true);
+      this.getMaxVelocity(true);
     }
   };
 
