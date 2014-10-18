@@ -18,7 +18,7 @@ public class Player {
 		this.socket = socket;
 		this.id = id_counter++;
 		nickname = Integer.toString(id);
-		x = y = 0;
+		x = y = 100;
 		type = "dead";
 	}
 	
