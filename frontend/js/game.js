@@ -11,6 +11,7 @@ function Game() {
   this._projectiles.forEach = forEach;
   this._images = {};
   this._walls = [];
+  this._playerID = -1;
 
   this._eventStream = new EventEmitter();
 }
@@ -35,7 +36,7 @@ Game.prototype.start = function() {
     self.player().sendMessage(socket);
   }, 100);
 
-  setInterval(function() {
+  var timeSyncs = setInterval(function() {
     socket.send("t", {t:+Date.now()});
   }, 1000);
 
@@ -48,6 +49,9 @@ Game.prototype.start = function() {
     var rtt = now - msg.d.you;
     if(rtt < min_rtt) {
       min_rtt = rtt;
+      if(min_rtt < 50) {
+        clearInterval(timeSyncs);
+      }
       var bestServerTime = msg.d.me + rtt / 2;
       serverTimeDelta = now - bestServerTime;
       console.log("new min_rtt", rtt, serverTimeDelta);
@@ -60,6 +64,7 @@ Game.prototype.start = function() {
 
   self.on('playermetainfo', function(msg) {
     var pmi = msg.d;
+    console.log("SETTING PMI", msg.d)
     setPlayerMetaInfo(pmi);
 
     var typeSelector = document.getElementById('type-selector')
@@ -86,7 +91,7 @@ Game.prototype.start = function() {
       var el = document.createElement('img');
       el.setAttribute('width', 48);
       el.setAttribute('height', 48);
-      el.setAttribute('src', "assets/textures/players/"+type+".png")
+      el.setAttribute('src', "assets/textures/"+type+".png")
       el.setAttribute('alt', type);
       el.setAttribute('id', 'img-'+type);
       el.setAttribute('title', type);
@@ -125,27 +130,35 @@ Game.prototype.start = function() {
 
   //Key presses
   self.on('fireU', function() {
-    socket.send('directional', {
-      dir: 'u', x: self.player().x, y: self.player().y
-    });
+    if(!game.player().meleeFrame) {
+      socket.send('directional', {
+        dir: 'u', x: self.player().x, y: self.player().y
+      });
+    }
   });
 
   self.on('fireD', function() {
-    socket.send('directional', {
-      dir: 'd', x: self.player().x, y: self.player().y
-    });
+    if(!game.player().meleeFrame) {
+      socket.send('directional', {
+        dir: 'd', x: self.player().x, y: self.player().y
+      });
+    }
   });
 
   self.on('fireL', function() {
-    socket.send('directional', {
-      dir: 'l', x: self.player().x, y: self.player().y
-    });
+    if(!game.player().meleeFrame) {
+      socket.send('directional', {
+        dir: 'l', x: self.player().x, y: self.player().y
+      });
+    }
   });
 
   self.on('fireR', function() {
-    socket.send('directional', {
-      dir: 'r', x: self.player().x, y: self.player().y
-    });
+    if(!game.player().meleeFrame) {
+      socket.send('directional', {
+        dir: 'r', x: self.player().x, y: self.player().y
+      });
+    }
   });
 
   self.on('special', function() {
@@ -195,7 +208,7 @@ Game.prototype.start = function() {
 
   self.on('p', function(msg) {
     var player = self.player(msg.id);
-    if(msg.id != self._playerID) {
+    if(msg.id !== self._playerID) {
       player.setPosition(msg.d.x, msg.d.y);
       player.setVelocity(msg.d.vx, msg.d.vy);
       player.setType(msg.d.type);
@@ -238,7 +251,7 @@ Game.prototype.walls = function() {
 
 Game.prototype.player = function(id) {
   if(id == null) {
-    if(this._playerID != null) {
+    if(this._playerID !== -1) {
       return this._players[this._playerID];
     } else {
       function noop(){}
@@ -279,5 +292,6 @@ Game.prototype.on = function(type, f) {
 };
 
 Game.prototype.image = function(type) {
+  console.log("getting image for", type)
   return this._images[type];
 }

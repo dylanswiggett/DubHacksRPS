@@ -8,7 +8,7 @@ var Player = (function() {
     this.width = 48;
     this.height = 48;
     this.health = 0;
-    this.type = 'Rock';
+    this.type = 'dead';
     this._game = game;
 
     this.didOverlapX = [];
@@ -94,10 +94,15 @@ var Player = (function() {
   Player.prototype.setType = function(type) {
     if(type != null && type != this.type) {
       this.type = type;
-      var metaInfo  = getPlayerMetaInfo()[type]
-      console.log("got meta info", metaInfo)
-      this.maxHealth = metaInfo && +metaInfo.Health
+      this.getMaxHealth();
     }
+  };
+
+  Player.prototype.getMaxHealth = function() {
+    if(this.maxHealth) return this.maxHealth;
+    var metaInfo  = getPlayerMetaInfo()[this.type]
+    this.maxHealth = metaInfo && +metaInfo.Health
+    return this.maxHealth;
   };
 
   Player.prototype.setHealth = function(health) {
