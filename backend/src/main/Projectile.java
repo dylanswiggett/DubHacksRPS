@@ -23,7 +23,7 @@ public class Projectile {
 		projectileId = idCount++;
 		chargeTime = .25;
 		double v = 200 + Double.parseDouble(
-				RuleImport.getMap(false).get(type).get("Velocity")); // TODO: Get this from type
+				RuleImport.getMap(false).get(type).get("Velocity"));
 		switch (this.dir) {
 		case 'u':
 			vx = 0;
