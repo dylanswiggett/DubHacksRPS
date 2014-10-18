@@ -17,6 +17,7 @@ function startRenderCycle(game, time) {
     ctx.fillStyle = "rgb(200,0,0)";
 
     game.players().forEach(function(player) {
+      player.doFrame();
       ctx.fillRect(player.x, player.y, 20, 20);
     });
     

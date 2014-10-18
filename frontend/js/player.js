@@ -1,16 +1,32 @@
+var MAX_SPEED = 3;
+var FRICTION = 0.97;
+
 var Player = (function() {
   function Player(x, y) {
-    this.vx = 'NOT YET IMPLEMENTED';
-    this.vy = 'NOT YET IMPLEMENTED';
+    this.vx = 0;
+    this.vy = 0;
     this.x = x;
     this.y = y;
     this.type = 'dead';
   }
 
+  Player.prototype.doFrame = function() {
+    this.x += this.vx;
+    this.y += this.vy;
+  
+    this.vx *= FRICTION;
+    this.vy *= FRICTION;
+  };
+
   Player.prototype.move = function(dx, dy) {
     this.x += dx;
     this.y += dy;
     this.doSend = true;
+  }
+
+  Player.prototype.accelerate = function(x, y) {
+    this.vx = Math.max(Math.min(MAX_SPEED, this.vx + x), -MAX_SPEED);
+    this.vy = Math.max(Math.min(MAX_SPEED, this.vy + y), -MAX_SPEED);
   }
 
   Player.prototype.setPosition = function(x, y) {
@@ -20,7 +36,7 @@ var Player = (function() {
 
   Player.prototype.sendMessage = function(connection) {
     if(this.doSend) {
-      connection.send('p', {x: this.x, y: this.y});
+      connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy});
       this.doSend = false;
     }
   };
