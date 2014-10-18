@@ -145,6 +145,7 @@ public class RuleImport {
 	
 	public static Message ruleMapMessage() {		
 		JSONObject data = new JSONObject();
+		getMap(true);
 		Set<String> types = ruleMap.keySet();
 		for (String type : types) {
 			JSONObject rules = new JSONObject();
@@ -161,6 +162,7 @@ public class RuleImport {
 	
 	public static Message metaMapMessage() {
 		JSONObject data = new JSONObject();
+		getMap(false);
 		Set<String> types = metaMap.keySet();
 		for (String type : types) {
 			JSONObject info = new JSONObject();
