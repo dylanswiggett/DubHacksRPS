@@ -47,8 +47,8 @@ public class Arena {
 		arenaObjects.clear();
 		arenaObjects.add(new ArenaObject("Wall", 0, 0, 10, height));
 		arenaObjects.add(new ArenaObject("Wall", 0, 0, width, 10));
-		arenaObjects.add(new ArenaObject("Wall", width, 0, 10, height));
-		arenaObjects.add(new ArenaObject("Wall", 0, height, width, 10));
+		arenaObjects.add(new ArenaObject("Wall", width - 10, 0, 10, height));
+		arenaObjects.add(new ArenaObject("Wall", 0, height - 10, width, 10));
 	}
 	
 	public void addPlayer(Player p, WebSocket playerSocket) {
@@ -77,6 +77,26 @@ public class Arena {
 				for (int i = 0; i < projectiles.size(); i++) {
 					Projectile proj = projectiles.get(i);
 					proj.step(.02);
+					boolean hitWall = false;
+					for (ArenaObject ao : arenaObjects) {
+						if (ao.getType().equals("Wall") &&
+								ao.checkCollision(proj.getBoundingBox())) {
+							JSONObject strikeObj = new JSONObject();
+							strikeObj.put("x", proj.getX());
+							strikeObj.put("y", proj.getY());
+							strikeObj.put("projectileid", proj.getId());
+							Message strikeMessage = new Message(
+									"projhit", -1, strikeObj);
+							for (Player player : players.values()) {
+								player.sendMessage(strikeMessage);
+							}
+							projectiles.remove(i);
+							i--;
+							hitWall = true;
+							break;
+						}
+					}
+					if (hitWall) break;
 					for (Player player : players.values()) {
 						if (player.getId() != proj.getShooterId() &&
 								player.getBoundingBox().intersect(proj.getBoundingBox())) {

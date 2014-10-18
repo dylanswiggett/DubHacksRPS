@@ -31,4 +31,8 @@ public class ArenaObject {
 		
 		return new Message("arenaobject", -1, messageData);
 	}
+	
+	public String getType() {
+		return type;
+	}
 }
