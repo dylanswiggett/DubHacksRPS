@@ -79,7 +79,7 @@ public class Arena {
 					proj.step(.02);
 					boolean hitWall = false;
 					for (ArenaObject ao : arenaObjects) {
-						if (ao.getType().equals("Wall") &&
+						if (ao.getType().compareTo("Wall") == 0 &&
 								ao.checkCollision(proj.getBoundingBox())) {
 							JSONObject strikeObj = new JSONObject();
 							strikeObj.put("x", proj.getX());
