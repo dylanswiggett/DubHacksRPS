@@ -5,9 +5,9 @@ import org.json.JSONObject;
 public class Message {
 	private String evt;
 	private int id;
-	private JSONObject data;
+	private Object data;
 	
-	public Message(String evt, int id, JSONObject data) {
+	public Message(String evt, int id, Object data) {
 		this.evt = evt;
 		this.id = id;
 		this.data = data;
@@ -21,7 +21,7 @@ public class Message {
 		return id;
 	}
 	
-	public JSONObject getData() {
+	public Object getData() {
 		return data;
 	}
 	
@@ -39,9 +39,9 @@ public class Message {
 	
 	public static Message fromString(String s) {
 		JSONObject jsonMessage = new JSONObject(s);
-		JSONObject data = null;
+		Object data = null;
 		if (jsonMessage.has("d") && !jsonMessage.isNull("d"))
-			data = jsonMessage.getJSONObject("d");
+			data = jsonMessage.get("d");
 		return new Message(jsonMessage.getString("evt"),
 							jsonMessage.getInt("id"),
 							data);
