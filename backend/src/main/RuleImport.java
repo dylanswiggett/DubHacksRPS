@@ -118,6 +118,12 @@ public class RuleImport {
 		return ruleMap;
 	}
 	
+	/**
+	 * Gives a map based on a CSV, boolean determines which CSV to use
+	 * 
+	 * @param basic True gives ruleMap, False gives metaMap
+	 * @return
+	 */
 	public static Map<String, Map<String, String>> getMap(boolean basic) {
 		if (basic && ruleMap == null) {
 			ruleMap = new HashMap<String, Map<String, String>>();
