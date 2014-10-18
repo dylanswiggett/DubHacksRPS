@@ -3,7 +3,8 @@ function Game() {
   this._players = {};
   this._players.forEach = function(f, thisVal) {
     for(var k in this) {
-      f.call(thisVal, this[k], k, this);
+      if(k !== 'forEach')
+        f.call(thisVal, this[k], k, this);
     }
   };
 
@@ -19,6 +20,12 @@ Game.prototype.start = function() {
 
   //start the rendering loop.
   requestAnimationFrame(startRenderCycle.bind(null, self));
+
+  setInterval(function() {
+    self.players().forEach(function(p) {
+      p.sendMessage(socket);
+    });
+  }, 100);
 
   //Movement Events
   self.on('moveL', function() {
@@ -67,7 +74,8 @@ Game.prototype.player = function(id) {
     if(this._playerID != null) {
       return this._players[this._playerID];
     } else {
-      throw new Error("Player is not in game yet.")
+      console.log("Player not connected yet!");
+      return new Player();
     }
   }
   return this._players[id] || (this._players[id] = new Player());
