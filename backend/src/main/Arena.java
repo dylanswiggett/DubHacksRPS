@@ -232,7 +232,11 @@ public class Arena {
 						hitObj.put("x", x);
 						hitObj.put("y", y);
 						hitObj.put("type", meleeType);
-						player.sendMessage(new Message("meleehit", p.getId(), hitObj));
+						hitObj.put("hitter", p.getId());
+						Message hitMsg = new Message("meleehit", player.getId(), hitObj);
+						for (Player player2 : players.values()) {
+							player2.sendMessage(hitMsg);
+						}
 						strikePlayer(p, player, false);
 					}
 				}
