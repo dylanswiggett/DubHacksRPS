@@ -6,6 +6,7 @@ public class Player {
 	private static int id_counter = 0;
 	
 	private WebSocket socket;
+	private String nickname;
 	private int id;
 	private double health;
 	private boolean alive;
@@ -15,11 +16,20 @@ public class Player {
 	public Player(WebSocket socket) {
 		this.socket = socket;
 		this.id = id_counter++;
+		nickname = Integer.toString(id);
 		x = y = 0;
 	}
 	
 	public int getId() {
 		return id;
+	}
+	
+	public String getNickname() {
+		return nickname;
+	}
+	
+	public void setNickname(String nick) {
+		this.nickname = nick;
 	}
 	
 	public double getHealth() {
