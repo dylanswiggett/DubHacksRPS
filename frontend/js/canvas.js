@@ -16,24 +16,22 @@ function startRenderCycle(game, time) {
 
     ctx.fillStyle = "rgb(200,0,0)";
 
+    game.player().doPlayerFrame();
     game.players().forEach(function(player) {
+      ctx.fillStyle = player.color;
       player.doFrame();
       var renderX, renderY;
-      if(player.renderedX == null && player.renderedY == null) {
+      if(player.renderX == null && player.renderY == null) {
         renderX = player.x;
         renderY = player.y;
       } else {
-        renderX = (player.x + renderX) / 2;
-        renderY = (player.y + renderY) / 2;
+        renderX = (player.x + player.renderX) / 2;
+        renderY = (player.y + player.renderY) / 2;
       }
       ctx.fillRect(renderX, renderY, 48, 48);
       player.renderX = renderX;
       player.renderY = renderY;
     });
-    
-
-    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-    ctx.fillRect (30, 30, 55 + Math.random() * 100, 50);
   } catch(e) {
     console.error(e);
   } finally {
