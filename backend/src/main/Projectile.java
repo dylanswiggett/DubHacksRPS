@@ -12,6 +12,7 @@ public class Projectile {
 	private char dir;
 	private int sourceId;
 	private int projectileId;
+	private double chargeTime;
 	
 	public Projectile(String type, double x, double y, char dir, int sourceId) {
 		this.type = type;
@@ -20,6 +21,7 @@ public class Projectile {
 		this.dir = dir;
 		this.sourceId = sourceId;
 		projectileId = idCount++;
+		chargeTime = 1;
 		double v = 200 + 100 * Double.parseDouble(
 				RuleImport.getMap(false).get(type).get("Velocity")); // TODO: Get this from type
 		switch (this.dir) {
@@ -45,8 +47,12 @@ public class Projectile {
 	}
 	
 	public void step(double time) {	// Time in seconds
-		x += vx * time;
-		y += vy * time;
+		if (chargeTime > 0)
+			chargeTime -= time;
+		else {
+			x += vx * time;
+			y += vy * time;
+		}
 	}
 	
 	public boolean hitsPlayer(Player p) {
