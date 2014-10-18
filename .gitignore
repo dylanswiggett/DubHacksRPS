@@ -1,1 +1,17 @@
 .classpath
+.project
+
+*.class
+.git
+.gradle
+build
+*.svn
+*~
+target
+*.ipr
+*.iml
+*.iws
+.settings
+bin
+
+/doc                   
