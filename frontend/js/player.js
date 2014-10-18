@@ -34,6 +34,11 @@ var Player = (function() {
     if(y != null) this.y = y;
   };
 
+  Player.prototype.setVelocity = function(x, y) {
+    if(x != null) this.vx = x;
+    if(y != null) this.vy = y;
+  };
+
   Player.prototype.sendMessage = function(connection) {
     if(this.doSend) {
       connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy});
