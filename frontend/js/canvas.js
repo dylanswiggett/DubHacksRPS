@@ -17,11 +17,9 @@ function startRenderCycle(game, time) {
 
     ctx.clearRect(0, 0, WIDTH, HEIGHT);
     ctx.fillStyle = "rgb(200,0,0)";
-    
+
     var now = currentServerTime();
-    if((now - 16) % 1000 > now % 1000) {
-      ctx.fillRect(0,0,WIDTH, HEIGHT);
-    }
+    ctx.fillRect(now%WIDTH,0,5, 10);
 
 
 

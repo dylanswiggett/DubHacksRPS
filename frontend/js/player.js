@@ -100,7 +100,6 @@ var Player = (function() {
 
   Player.prototype.startMelee = function(dir) {
     this.meleeFrame = 10;
-    console.log(dir)
     this.meleeDirX = (dir == 'u' || dir == 'd') ? 0 : (dir == 'l' ? -1 : 1);
     this.meleeDirY = (dir == 'l' || dir == 'r') ? 0 : (dir == 'u' ? -1 : 1)
   };
