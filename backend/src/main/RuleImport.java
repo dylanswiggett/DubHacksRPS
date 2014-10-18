@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +15,10 @@ import java.util.Set;
 
 public class RuleImport {
 
-	private Map<String, Map<String, String>> ruleMap = new HashMap<String, Map<String, String>>();
+	private static Map<String, Map<String, String>> ruleMap = null;
+	private static final String filePath = "../RPS.csv";
 	
-	public Map<String, Map<String, String>> main(String filePath) {
+	private static Map<String, Map<String, String>> importMap() {
 		Path file = Paths.get(filePath);
 		
 		Charset charset = Charset.forName("US-ASCII");
@@ -68,7 +70,11 @@ public class RuleImport {
 		return ruleMap;
 	}
 	
-	public Map<String, Map<String, String>> getMap() {
-		return ruleMap;
+	public static Map<String, Map<String, String>> getMap() {
+		if (ruleMap == null) {
+			ruleMap = new HashMap<String, Map<String, String>>();
+			ruleMap = importMap();
+		}
+		return Collections.unmodifiableMap(ruleMap);
 	}
 }
