@@ -74,7 +74,8 @@ public class Arena {
 		while (true) {
 			try {
 				Thread.sleep(10);
-				for (Projectile proj : projectiles) {
+				for (int i = 0; i < projectiles.size(); i++) {
+					Projectile proj = projectiles.get(i);
 					for (Player player : players.values()) {
 						if (player.getId() != proj.getShooterId() &&
 								player.getBoundingBox().intersect(proj.getBoundingBox())) {
@@ -91,6 +92,8 @@ public class Arena {
 									striker = player2;
 							}
 							strikePlayer(striker, player, true);
+							projectiles.remove(i);
+							i--;
 							break;
 						}
 					}
