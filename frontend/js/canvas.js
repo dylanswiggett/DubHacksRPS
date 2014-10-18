@@ -55,7 +55,16 @@ function startRenderCycle(game, time) {
       ctx.fillStyle = 'black';
       proj.doFrame(dt);
 
-      ctx.fillRect(proj.x, proj.y, 20, 20);
+      var renderX, renderY;
+      if(proj.renderX == null && proj.renderY == null) {
+        renderX = proj.x;
+        renderY = proj.y;
+      } else {
+        renderX = (proj.x + proj.renderX) / 2;
+        renderY = (proj.y + proj.renderY) / 2;
+      }
+
+      ctx.fillRect(renderX, renderY, 20, 20);
     });
 
     ctx.fillStyle = 'black'

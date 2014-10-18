@@ -5,7 +5,7 @@ function Projectile(player) {
   this.x = 0;
   this.y = 0;
   this.type = null;
-  this.charge = 1000;
+  this.charge = 250;
 
   var letters = '0123456789ABCDEF'.split('');
   var color = '#';
