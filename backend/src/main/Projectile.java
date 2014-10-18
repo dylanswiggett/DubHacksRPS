@@ -20,7 +20,8 @@ public class Projectile {
 		this.dir = dir;
 		this.sourceId = sourceId;
 		projectileId = idCount++;
-		double v = 100; // TODO: Get this from type
+		double v = Double.parseDouble(
+				RuleImport.getMap(false).get(type).get("Velocity")); // TODO: Get this from type
 		switch (this.dir) {
 		case 'u':
 			vx = 0;
