@@ -18,9 +18,9 @@ var Player = (function() {
     if(y != null) this.y = y;
   };
 
-  Player.prototype.sendMessage = function() {
+  Player.prototype.sendMessage = function(connection) {
     if(this.doSend) {
-      SocketConnection.send('p', [this.x, this.y]);
+      connection.send('p', {x: this.x, y: this.y});
       this.doSend = false;
     }
   };
