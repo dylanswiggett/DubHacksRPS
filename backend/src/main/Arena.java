@@ -73,7 +73,12 @@ public class Arena {
 				properties.get("DamageMultiplier"));
 		struck.removeHealth(damage);
 		// TODO: Handle special interactions, dying.
-		Message statusMsg = new Message("p", struck.getId(), struck.getStatusData());
+		
+		Message statusMsg = null;
+		if (struck.getHealth() > 0)
+			statusMsg = new Message("p", struck.getId(), struck.getStatusData());
+		else
+			statusMsg = new Message("dead", struck.getId(), null);
 		for (Player player : players.values())
 			player.sendMessage(statusMsg);
 	}

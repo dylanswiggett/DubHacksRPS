@@ -56,13 +56,15 @@ public class Player {
 	}
 	
 	public void setType(String type) {
-		this.type = type;
-		if (RuleImport.getMap(false).containsKey(type)) {
-			this.health =
-					Double.parseDouble(RuleImport.getMap(false).get(type).get("Health"));
-			System.out.println("Type set to " + type + ", with " + this.health + " health.");
-		} else {
-			System.err.println("Type set to " + type);
+		if (!type.equals(this.type)) {
+			this.type = type;
+			if (RuleImport.getMap(false).containsKey(type)) {
+				this.health =
+						Double.parseDouble(RuleImport.getMap(false).get(type).get("Health"));
+				System.out.println("Type set to " + type + ", with " + this.health + " health.");
+			} else {
+				System.err.println("Type set to " + type);
+			}
 		}
 	}
 	
