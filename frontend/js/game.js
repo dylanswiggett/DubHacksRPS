@@ -194,7 +194,7 @@ Game.prototype.start = function() {
       player.setVelocity(msg.d.vx, msg.d.vy);
       player.setType(msg.d.type);
     }
-    player.setHealth(msg.h);
+    player.setHealth(msg.d.h);
   });
 
   self.on('playerdisconnect', function(msg) {
