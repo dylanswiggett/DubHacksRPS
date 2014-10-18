@@ -1,6 +1,7 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -162,6 +163,12 @@ public class Arena {
 				if (player != p)
 					player.sendMessage(connectmsg);
 			break;
+		case "t":
+			JSONObject tdata = new JSONObject();
+			tdata.put("me", System.currentTimeMillis());
+			tdata.put("you", ((JSONObject)msg.getData()).get("t"));
+			p.sendMessage(new Message("sync", -1, tdata));
+			break;
 		case "p":
 			/*
 			 * Player position/data update. Notify all other players of the
@@ -202,6 +209,33 @@ public class Arena {
 			String projectileType = metaMap.get("ProjectileType");
 			if (!meleeType.isEmpty()) { // Melee attack
 				// TODO: Melee damage
+				double attackX = x;
+				double attackY = y;
+				switch (dir.charAt(0)) {
+				case 'u':
+					attackY -= 48;
+					break;
+				case 'd':
+					attackY += 48;
+					break;
+				case 'r':
+					attackX += 48;
+					break;
+				case 'l':
+					attackY -= 48;
+					break;
+				}
+				BoundingBox attackBox = new BoundingBox(attackX, attackY, 48, 48);
+				for (Player player : players.values()) {
+					if (player != p && p.getBoundingBox().intersect(attackBox)) {
+						JSONObject hitObj = new JSONObject();
+						hitObj.put("x", x);
+						hitObj.put("y", y);
+						hitObj.put("type", meleeType);
+						player.sendMessage(new Message("meleehit", p.getId(), hitObj));
+						strikePlayer(p, player, false);
+					}
+				}
 				JSONObject meleeObj = new JSONObject();
 				meleeObj.put("type", meleeType);
 				meleeObj.put("x", x);
