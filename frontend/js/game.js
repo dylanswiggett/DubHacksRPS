@@ -29,19 +29,19 @@ Game.prototype.start = function() {
 
   //Movement Events
   self.on('moveL', function() {
-    self.player().move(-1, 0);
+    self.player().accelerate(-1, 0);
   });
 
   self.on('moveR', function() {
-    self.player().move(1, 0);
+    self.player().accelerate(1, 0);
   })
 
   self.on('moveU', function() {
-    self.player().move(0, -1);
+    self.player().accelerate(0, -1);
   });
 
   self.on('moveD', function() {
-    self.player().move(0, 1);
+    self.player().accelerate(0, 1);
   });
 
   self.on('arenainit', function(msg) {
@@ -66,6 +66,10 @@ Game.prototype.start = function() {
     if(msg.id != self._playerID) player.setPosition(msg.d.x, msg.d.y);
     player.setType(msg.d.type);
     player.setHealth(msg.h);
+  });
+
+  self.on('playerdisconnect', function(msg) {
+    self.removePlayer(msg.id);
   });
 };
 
