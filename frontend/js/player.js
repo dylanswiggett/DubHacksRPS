@@ -14,8 +14,8 @@ var Player = (function() {
   }
 
   Player.prototype.setPosition = function(x, y) {
-    if(x) this.x = x;
-    if(y) this.y = y;
+    if(x != null) this.x = x;
+    if(y != null) this.y = y;
   };
 
   Player.prototype.sendMessage = function() {
@@ -26,11 +26,11 @@ var Player = (function() {
   };
 
   Player.prototype.setType = function(type) {
-    if(type) this.type = type;
+    if(type != null) this.type = type;
   };
 
   Player.prototype.setHealth = function(health) {
-    if(health) this.health = health;
+    if(health != null) this.health = health;
   }
 
   return Player;

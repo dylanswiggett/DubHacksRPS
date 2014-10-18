@@ -45,11 +45,8 @@ Game.prototype.start = function() {
     console.log('object', msg);
   });
 
-  function handlePlayerInfo(msg) {
-
-  }
-
   self.on('setid', function(msg) {
+    console.log('setid', msg);
     self.setPlayerID(msg.id)
     var player = self.player(msg.id);
     player.setPosition(msg.d.x, msg.d.y);

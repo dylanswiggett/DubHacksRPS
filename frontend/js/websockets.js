@@ -7,6 +7,7 @@ function Conn(ws, ee) {
   var self = this;
   this.socket.onmessage = function(msg) {
     var payload = JSON.parse(msg.data);
+    console.log(payload);
     if(payload.evt == 'setid') {
       self.playerID = payload.id;
     }
