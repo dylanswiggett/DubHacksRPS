@@ -21,12 +21,12 @@ var Player = (function() {
   Player.prototype.move = function(dx, dy) {
     this.x += dx;
     this.y += dy;
-    this.doSend = true;
   }
 
   Player.prototype.accelerate = function(x, y) {
     this.vx = Math.max(Math.min(MAX_SPEED, this.vx + x), -MAX_SPEED);
     this.vy = Math.max(Math.min(MAX_SPEED, this.vy + y), -MAX_SPEED);
+    this.doSend = true;
   }
 
   Player.prototype.setPosition = function(x, y) {
