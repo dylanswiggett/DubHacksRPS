@@ -10,6 +10,8 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class RPSServer extends WebSocketServer {
+	
+	Arena arena;
 
 	public RPSServer( int port , Draft d ) throws UnknownHostException {
 		super( new InetSocketAddress( port ), Collections.singletonList( d ) );
@@ -17,6 +19,7 @@ public class RPSServer extends WebSocketServer {
 
 	@Override
 	public void onClose(WebSocket arg0, int arg1, String arg2, boolean arg3) {
+		arena.removePlayer(arg0);
 	}
 
 	@Override
@@ -25,12 +28,14 @@ public class RPSServer extends WebSocketServer {
 
 	@Override
 	public void onMessage(WebSocket arg0, String arg1) {
-		System.out.println(arg1);
-		arg0.send("HI, THIS IS WORLD.");
+		arena.processPlayerMessage(arg0, Message.fromString(arg1));
 	}
 
 	@Override
 	public void onOpen(WebSocket arg0, ClientHandshake arg1) {
+		Player newPlayer = new Player(arg0);
+		
+		arena.addPlayer(newPlayer, arg0);
 	}
 
 }

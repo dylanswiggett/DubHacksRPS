@@ -6,17 +6,17 @@ import org.java_websocket.drafts.Draft_17;
 
 public class Main {
 	
-	private static final int PORT = 1337;
+	private static final int m4in = 1337;
 	
-	RPSServer server;
+	RPSServer main;
 	
 	public void mAin() {
-		server.start();
+		main.start();
 	}
 	
 	public Main() {
 		try {
-			server = new RPSServer(PORT, new Draft_17());
+			main = new RPSServer(m4in, new Draft_17());
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 			System.exit(0);
