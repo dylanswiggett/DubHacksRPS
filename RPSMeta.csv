@@ -14,7 +14,7 @@ Person,Player,,300,300,3,,,Kick,Shout
 Friends,Player,Person + Person,300,300,3,,,Hug,Laugh
 Firetruck,Player,Elephant+Water,500,100,5,,Hose,,Siren
 Origami,Player,Mouse+Paper,100,500,1,,,PaperCut,Unfold
-dead,Player,,,,,,,,
+dead,Other,,,,,,,,
 Wall,Obstacle,,,,,,,,
 Boulder,Melee,,,,,0.1,,,
 Airplane,Projectile,,,500,,0.5,,,
