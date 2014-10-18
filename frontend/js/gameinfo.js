@@ -9,3 +9,12 @@ function playableTypes(pmi) {
   }
   return types;
 }
+
+var _playerTypes
+function setPlayerTypes(pt) {
+  _playerTypes = pt;
+}
+
+function getPlayerTypes() {
+  return _playerTypes;
+}

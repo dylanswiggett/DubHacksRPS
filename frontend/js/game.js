@@ -40,18 +40,48 @@ Game.prototype.start = function() {
   keysSetGame(self);
 
   self.on('playertypes', function(msg) {
-    console.log(msg);
-  })
+    setPlayerTypes(msg.d);
+  });
 
   self.on('playermetainfo', function(msg) {
+    var pmi = msg.d;
     console.log(msg);
-    var playable = playableTypes(msg.d);
+    var playable = playableTypes(pmi);
 
-    var html = ''
+    var typeSelector = document.getElementById('type-selector')
+
+    function setClasses(type) {
+      return function(e) {
+        var playerTypes = getPlayerTypes();
+        if(playerTypes) {
+          Array.prototype.slice.call(e.target.parentNode.children, 0).forEach(function(child) {
+            var interaction = playerTypes[type][child.getAttribute('alt')]
+            child.className = 'int'+interaction;
+            console.log(child);
+          });
+        }
+      }
+    }
+
+    function removeClasses() {
+      Array.prototype.slice.call(typeSelector.children, 0).forEach(function(child) {
+        child.className = '';
+      })
+    }
+
     playable.forEach(function(playableType) {
-      html += '<img src="assets/textures/players/'+playableType+'.png" alt="'+playableType+'"/>';
+      var el = document.createElement('img');
+      el.setAttribute('width', 48);
+      el.setAttribute('height', 48);
+      el.setAttribute('src', "assets/textures/players/"+playableType+".png")
+      el.setAttribute('alt', playableType);
+      el.onmouseover = setClasses(playableType);
+      el.onmouseout = removeClasses;
+      el.onclick = function(e) {
+        self.player().setType(e.target.getAttribute('alt'))
+      }
+      typeSelector.appendChild(el);
     });
-    document.getElementById('type-selector').innerHTML = html;
   });
 
   //Movement Events
