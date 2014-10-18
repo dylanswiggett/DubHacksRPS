@@ -22,5 +22,6 @@ public class Arena {
 	
 	public void processPlayerMessage(WebSocket playerSocket, Message msg) {
 		Player p = players.get(playerSocket);
+		p.sendMessage(new Message("RESPONSE", p.getId(), msg.getData()));
 	}
 }

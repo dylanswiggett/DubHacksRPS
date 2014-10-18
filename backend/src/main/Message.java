@@ -26,20 +26,24 @@ public class Message {
 	}
 	
 	public JSONObject toJSON() {
-		return new JSONObject(toString());
+		JSONObject obj = new JSONObject();
+		obj.put("evt", evt);
+		obj.put("id", id);
+		obj.put("d", data);
+		return obj;
 	}
 	
 	public String toString() {
-		return "{ \"evt\":  \"" + evt             + "\"" +
-				"  \"id\":   \"" + id              + "\"" +
-				"  \"data\": \"" + data.toString() + "\"" +
-				"}";
+		return toJSON().toString();
 	}
 	
 	public static Message fromString(String s) {
 		JSONObject jsonMessage = new JSONObject(s);
+		JSONObject data = null;
+		if (jsonMessage.has("d") && !jsonMessage.isNull("d"))
+			data = jsonMessage.getJSONObject("d");
 		return new Message(jsonMessage.getString("evt"),
 							jsonMessage.getInt("id"),
-							jsonMessage.getJSONObject("data"));
+							data);
 	}
 }
