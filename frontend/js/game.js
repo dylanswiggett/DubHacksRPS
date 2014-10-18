@@ -47,10 +47,10 @@ Game.prototype.start = function() {
     var now = Date.now();
     var rtt = now - msg.d.you;
     if(rtt < min_rtt) {
-      console.log("new min_rtt", rtt);
       min_rtt = rtt;
       var bestServerTime = msg.d.me + rtt / 2;
       serverTimeDelta = now - bestServerTime;
+      console.log("new min_rtt", rtt, serverTimeDelta);
     }
   });
 
@@ -154,6 +154,7 @@ Game.prototype.start = function() {
   });
 
   self.on('projhit', function(msg) {
+    console.log('ph');
     var id = msg.id;
     if(id == -1) {
       //TODO: PARTICLES EVERYWHERE!

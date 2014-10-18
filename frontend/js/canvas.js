@@ -40,8 +40,13 @@ function startRenderCycle(game, time) {
       var img = game.image(player.type);
       if(img) {
         ctx.drawImage(img, renderX, renderY, 48, 48);
-        ctx.fillStyle = 'green';
-        ctx.arc(renderX + player.width / 2, renderY + player.height / 2, 24, 0, 2*Math.PI*player.health/player.maxHealth);
+        ctx.strokeStyle = 'green';
+        ctx.lineWidth = 5
+        ctx.moveTo(renderX + player.width / 2, renderY + player.height / 2);
+        ctx.beginPath();
+        ctx.arc(renderX + player.width / 2, renderY + player.height / 2, 27, 0, 2*Math.PI*player.health/player.maxHealth)
+        ctx.stroke();
+        ctx.closePath();
       } else {
         ctx.fillRect(renderX, renderY, 48, 48);
       }

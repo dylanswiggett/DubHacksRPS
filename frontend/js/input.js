@@ -10,11 +10,15 @@ var bindings = {
   's': 'fireD',
   'a': 'fireL',
   'd': 'fireR',
+  'W': 'fireU',
+  'S': 'fireS',
+  'A': 'fireL',
+  'D': 'fireR',
   ' ': 'special'
 };
 
 var key_press = {
-  w: true, s: true, a: true, d: true, ' ': true
+  w: true, s: true, a: true, d: true, ' ': true, W: true, S: true, A: true, D: true
 };
 
 var key_press_stream;

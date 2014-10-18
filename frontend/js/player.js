@@ -95,6 +95,7 @@ var Player = (function() {
     if(type != null && type != this.type) {
       this.type = type;
       var metaInfo  = getPlayerMetaInfo()[type]
+      console.log("got meta info", metaInfo)
       this.maxHealth = metaInfo && +metaInfo.Health
     }
   };
