@@ -2,9 +2,9 @@
 function Projectile() {
   this.vx = 0;
   this.vy = 0;
-  this.x = x;
-  this.y = y;
-  this.type = 'rock';
+  this.x = 0;
+  this.y = 0;
+  this.type = 'Airplane';
 
   var letters = '0123456789ABCDEF'.split('');
   var color = '#';
@@ -29,3 +29,7 @@ Projectile.prototype.setVelocity = function(x, y) {
   if(x != null) this.vx = x;
   if(y != null) this.vy = y;
 };
+
+Projectile.prototype.setType = function(type) {
+  if(type != null) this.type = type;
+}

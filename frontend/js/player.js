@@ -54,7 +54,7 @@ var Player = (function() {
   };
 
   Player.prototype.sendMessage = function(connection) {
-      connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy, type:'Rock'});
+      connection.send('p', {x: this.x, y: this.y, vx:this.vx, vy: this.vy, type:'Paper'});
       this.doSend = false;
   };
 

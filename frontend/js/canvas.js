@@ -42,7 +42,7 @@ function startRenderCycle(game, time) {
       ctx.fillStyle = 'black';
       proj.doFrame(dt);
 
-      ctx.fillReact(proj.x, proj.y, 20, 20);
+      ctx.fillRect(proj.x, proj.y, 20, 20);
     });
   } catch(e) {
     console.error(e);
