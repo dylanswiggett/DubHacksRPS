@@ -48,6 +48,7 @@ Game.prototype.start = function() {
     var pmi = msg.d;
     console.log(msg);
     var playable = playableTypes(pmi);
+    setPlayerMetaInfo(pmi);
 
     var typeSelector = document.getElementById('type-selector')
 
@@ -139,6 +140,18 @@ Game.prototype.start = function() {
     });
   });
 
+  self.on('projhit', function(msg) {
+    console.log('projhit', msg);
+    var id = msg.id;
+    if(id == -1) {
+    } else {
+      var player = Game.player(id);
+      player.hurt();
+    }
+
+    self.removeProjectile(msg.d.projectileid);
+  });
+
   self.on('arenainit', function(msg) {
     self.setBounds(msg.d.w, msg.d.h);
   });
@@ -210,6 +223,10 @@ Game.prototype.player = function(id) {
 Game.prototype.removePlayer = function(id) {
   delete this._players[id];
 };
+
+Game.prototype.removeProjectile = function(id) {
+  delete this._projectiles[id];
+}
 
 Game.prototype.players = function() {
   return this._players;

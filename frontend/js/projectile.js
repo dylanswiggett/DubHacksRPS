@@ -1,11 +1,11 @@
 
-function Projectile() {
+function Projectile(player) {
   this.vx = 0;
   this.vy = 0;
   this.x = 0;
   this.y = 0;
-  this.type = 'Airplane';
-
+  this.type = null;
+  
   var letters = '0123456789ABCDEF'.split('');
   var color = '#';
   for (var i = 0; i < 6; i++ ) {

@@ -25,6 +25,7 @@ var Player = (function() {
     this.vy *= FRICTION;
 
     if(this.meleeFrame) this.meleeFrame--;
+    if(this.hurtFrame) this.hurtFrame--;
   };
 
   Player.prototype.doPlayerFrame = function(dt) {
@@ -72,6 +73,10 @@ var Player = (function() {
     this.meleeDirX = (dir == 'u' || dir == 'd') ? 0 : (dir == 'l' ? -1 : 1);
     this.meleeDirY = (dir == 'l' || dir == 'r') ? 0 : (dir == 'u' ? -1 : 1)
   };
+
+  Player.prototype.hurt = function() {
+    this.hurtFrame = 10;
+  }
 
   return Player;
 })();

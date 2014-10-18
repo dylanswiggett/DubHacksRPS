@@ -39,6 +39,10 @@ function startRenderCycle(game, time) {
       } else {
         ctx.fillRect(renderX, renderY, 48, 48);
       }
+      if(player.hurtFrame) {
+        ctx.fillStyle = 'red'
+        ctx.fillRect(renderX + 12, renderY + 12, 24, 24)
+      }
       player.renderX = renderX;
       player.renderY = renderY;
     });

@@ -18,3 +18,12 @@ function setPlayerTypes(pt) {
 function getPlayerTypes() {
   return _playerTypes;
 }
+
+var _pmi;
+function setPlayerMetaInfo(pmi) {
+  _pmi = pmi;
+}
+
+function getPlayerMetaInfo() {
+  return _pmi;
+}
