@@ -68,7 +68,13 @@ public class Arena {
 			p.sendMessage(getArenaInitMessage());
 			for (ArenaObject obj : arenaObjects)
 				p.sendMessage(obj.getInitMessage());
-			// TODO: Broadcast player states to new player
+			// Send current player states
+			for (Player player : players.values()) {
+				if (player != p)
+					p.sendMessage(
+							new Message("p", player.getId(), player.getStatusData()));
+			}
+			// Add new player to game!
 			p.sendMessage(new Message("setid", p.getId(), p.getStatusData()));
 			System.out.println("Player connected: " + p.getId());
 			JSONArray newpos = new JSONArray();
@@ -88,9 +94,12 @@ public class Arena {
 			// Extract player data.
 			Double x = playerData.getDouble("x");
 			Double y = playerData.getDouble("y");
+			Double vx = playerData.getDouble("vx");
+			Double vy = playerData.getDouble("vy");
 			
 			// Process player data
-			p.setPosition(x.doubleValue(), y.doubleValue());
+			p.setPosition(x, y);
+			p.setVelocity(vx, vy);
 			String type = null;
 			if (playerData.has("type")) {
 				type = playerData.getString("type");
