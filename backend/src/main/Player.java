@@ -32,7 +32,7 @@ public class Player {
 	
 	public void kill() {
 		alive = false;
-		// TODO: Kill the player!
+		sendMessage(new Message("dead", getId(), null));
 	}
 	
 	public String getType() {

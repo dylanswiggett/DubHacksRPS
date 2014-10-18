@@ -35,6 +35,9 @@ public class Arena {
 			Number y = (Number) pos.get(1);
 			p.setPosition(x.doubleValue(), y.doubleValue());
 			System.out.println("Player " + p.getId() + " to " + x + ", " + y);
+			for (Player player : players.values())
+				if (player != p)
+					player.sendMessage(msg);
 			break;
 		default:
 			System.err.println("Recieved unknown event type " + msg.getEventName());
