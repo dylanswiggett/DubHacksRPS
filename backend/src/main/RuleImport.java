@@ -143,11 +143,7 @@ public class RuleImport {
 		
 	}
 	
-	public static JSONObject ruleMapToJSON() {
-		JSONObject obj = new JSONObject();
-		obj.put("evt", "playertypes");
-		obj.put("id", -1);
-		
+	public static Message ruleMapToJSON() {		
 		JSONObject data = new JSONObject();
 		Set<String> types = ruleMap.keySet();
 		for (String type : types) {
@@ -160,16 +156,10 @@ public class RuleImport {
 			}
 			data.put(type, rules);
 		}
-		
-		obj.put("d", data);
-		return obj;
+		return new Message("playertypes", -1, data);
 	}
 	
-	public static JSONObject metaMapToJSON() {
-		JSONObject obj = new JSONObject();
-		obj.put("evt", "playermetainfo");
-		obj.put("id", -1);
-		
+	public static Message metaMapToJSON() {
 		JSONObject data = new JSONObject();
 		Set<String> types = metaMap.keySet();
 		for (String type : types) {
@@ -182,9 +172,6 @@ public class RuleImport {
 			}
 			data.put(type, info);
 		}
-		
-		obj.put("d", data);
-		System.out.println(obj);
-		return obj;
+		return new Message("playermetainfo", -1, data);
 	}
 }
