@@ -15,17 +15,25 @@ public class Arena {
 	
 	private Map<WebSocket, Player> players;
 	private List<ArenaObject> arenaObjects;
+	private List<Projectile> projectiles;
 	
 	private double width, height;
 	
 	public Arena() {
 		players = new HashMap<WebSocket, Player>();
 		arenaObjects = new ArrayList<>();
+		projectiles = new ArrayList<>();
 		
 		designArena();
 		
 		width = DEFAULT_WIDTH;
 		height = DEFAULT_HEIGHT;
+		
+		new Thread() {
+			public void run() {
+				handleProjectiles();
+			}
+		}.start();
 	}
 	
 	private Message getArenaInitMessage() {
@@ -53,7 +61,23 @@ public class Arena {
 				player.sendMessage(disconnectmsg);
 	}
 	
+	private void handleProjectiles() {
+		// TODO: Update projectiles over time, and check collisions.
+		// Watch out for race conditions here!
+		// Send a projectile destroy message when necessary.
+		while (true) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	public void processPlayerMessage(WebSocket playerSocket, Message msg) {
+		double x, y;
+		JSONObject attack;
+		
 		Player p = players.get(playerSocket);
 		switch (msg.getEventName()) {
 		case "join":
@@ -92,8 +116,8 @@ public class Arena {
 			 */
 			JSONObject playerData = (JSONObject) msg.getData();
 			// Extract player data.
-			Double x = playerData.getDouble("x");
-			Double y = playerData.getDouble("y");
+			x = playerData.getDouble("x");
+			y = playerData.getDouble("y");
 			Double vx = playerData.getDouble("vx");
 			Double vy = playerData.getDouble("vy");
 			
@@ -112,6 +136,43 @@ public class Arena {
 			playerData.put("h", p.getHealth());
 			for (Player player : players.values())
 					player.sendMessage(msg);
+			break;
+		case "directional":
+			// Directional attack from the player.
+			attack = (JSONObject) msg.getData();
+			x = attack.getDouble("x");
+			y = attack.getDouble("y");
+			String dir = attack.getString("dir"); // 'u','d','l', or 'r'
+			Map<String, String> metaMap = RuleImport.getMap(false).get(p.getType());
+			String meleeType = metaMap.get("MeleeType");
+			String projectileType = metaMap.get("ProjectileType");
+			if (!meleeType.isEmpty()) { // Melee attack
+				// TODO: Melee damage
+				JSONObject meleeObj = new JSONObject();
+				meleeObj.put("type", meleeType);
+				meleeObj.put("x", x);
+				meleeObj.put("y", y);
+				meleeObj.put("dir", dir);
+				Message meleeMessage = new Message("melee", p.getId(), meleeObj);
+				for (Player player : players.values()) {
+					player.sendMessage(meleeMessage);
+				}
+				// TODO: Check collisions and do damage.
+			} else { // Projectile attack
+				Projectile proj = new Projectile(projectileType, x, y, dir.charAt(0), p.getId());
+				projectiles.add(proj);
+				Message projMessage = proj.getMessage();
+				for (Player player : players.values()) {
+					player.sendMessage(projMessage);
+				}
+			}
+			break;
+		case "special":
+			// Special attack from the player.
+			attack = (JSONObject) msg.getData();
+			x = attack.getDouble("x");
+			y = attack.getDouble("y");
+			// TODO: Special behavior.
 			break;
 		default:
 			System.err.println("Recieved unknown event type " + msg.getEventName());
