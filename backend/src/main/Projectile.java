@@ -22,7 +22,7 @@ public class Projectile {
 		this.sourceId = sourceId;
 		projectileId = idCount++;
 		chargeTime = .25;
-		double v = 200 + 100 * Double.parseDouble(
+		double v = 200 + Double.parseDouble(
 				RuleImport.getMap(false).get(type).get("Velocity")); // TODO: Get this from type
 		switch (this.dir) {
 		case 'u':
