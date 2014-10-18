@@ -10,6 +10,7 @@ function Game() {
   this._projectiles = {};
   this._projectiles.forEach = forEach;
   this._images = {};
+  this._walls = [];
 
   this._eventStream = new EventEmitter();
 }
@@ -30,15 +31,16 @@ Game.prototype.start = function() {
   }, 100);
 
   setInterval(function() {
-    var epoch = 1413639775000;
-    var utc = Date.UTC();
-    var now = utc - epoch;
-
-    socket.send("t", {t:now});
+    socket.send("t", {t:+Date.now()});
   }, 1000);
 
   //Tell key presses about game.
   keysSetGame(self);
+
+  var min_rtt = Math.HUGE
+  self.on('sync', function(msg) { 
+    var rtt = Date.now() - msg.d.you;
+  });
 
   self.on('playertypes', function(msg) {
     setPlayerTypes(msg.d);
@@ -141,9 +143,9 @@ Game.prototype.start = function() {
   });
 
   self.on('projhit', function(msg) {
-    console.log('projhit', msg);
     var id = msg.id;
     if(id == -1) {
+      //TODO: PARTICLES EVERYWHERE!
     } else {
       var player = game.player(id);
       player.hurt();
@@ -158,6 +160,7 @@ Game.prototype.start = function() {
 
   self.on('arenaobject', function(msg) {
     console.log('object', msg);
+    self._walls.push(new Wall(msg.d.x, msg.d.y, msg.d.w, msg.d.h));
   });
 
   self.on('setid', function(msg) {
@@ -207,6 +210,10 @@ Game.prototype.projectiles = function() {
   return this._projectiles;
 };
 
+Game.prototype.walls = function() {
+  return this._walls;
+};
+
 Game.prototype.player = function(id) {
   if(id == null) {
     if(this._playerID != null) {
@@ -217,7 +224,7 @@ Game.prototype.player = function(id) {
       return {doPlayerFrame: noop, sendMessage: noop, accelerate: noop};
     }
   }
-  return this._players[id] || (this._players[id] = new Player());
+  return this._players[id] || (this._players[id] = new Player(this));
 };
 
 Game.prototype.removePlayer = function(id) {

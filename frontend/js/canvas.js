@@ -2,6 +2,7 @@ var canvas = document.getElementById('main-canvas');
 var WIDTH = +canvas.getAttribute("width");
 var HEIGHT = +canvas.getAttribute("height");
 
+
 var ctx = canvas.getContext('2d');
 
 var lastTick = 0;
@@ -52,6 +53,11 @@ function startRenderCycle(game, time) {
       proj.doFrame(dt);
 
       ctx.fillRect(proj.x, proj.y, 20, 20);
+    });
+
+    ctx.fillStyle = 'black'
+    game.walls().forEach(function(wall){
+      ctx.fillRect(wall.x, wall.y, wall.w, wall.h);
     });
   } catch(e) {
     console.error(e);
