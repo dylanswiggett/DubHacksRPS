@@ -13,6 +13,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONObject;
+
 public class RuleImport {
 
 	private static Map<String, Map<String, String>> ruleMap = null;
@@ -76,5 +78,27 @@ public class RuleImport {
 			ruleMap = importMap();
 		}
 		return Collections.unmodifiableMap(ruleMap);
+	}
+	
+	public static JSONObject toJSON() {
+		JSONObject obj = new JSONObject();
+		obj.put("evt", "playerTypes");
+		obj.put("id", -1);
+		
+		JSONObject data = new JSONObject();
+		Set<String> types = ruleMap.keySet();
+		for (String type : types) {
+			JSONObject rules = new JSONObject();
+			Map<String, String> rowRuleMap = ruleMap.get(type);
+			Set<String> rowKeys = rowRuleMap.keySet();
+			for (String rowKey : rowKeys) {
+				String ruleValue = rowRuleMap.get(rowKey);
+				rules.put(rowKey, ruleValue);
+			}
+			data.put(type, rules);
+		}
+		
+		obj.put("d", data);
+		return obj;
 	}
 }
