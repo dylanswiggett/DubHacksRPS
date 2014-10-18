@@ -16,6 +16,7 @@ function startRenderCycle(game, time) {
 
     ctx.fillStyle = "rgb(200,0,0)";
 
+    game.player().doPlayerFrame();
     game.players().forEach(function(player) {
       player.doFrame();
       var renderX, renderY;
@@ -30,10 +31,6 @@ function startRenderCycle(game, time) {
       player.renderX = renderX;
       player.renderY = renderY;
     });
-    
-
-    ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
-    ctx.fillRect (30, 30, 55 + Math.random() * 100, 50);
   } catch(e) {
     console.error(e);
   } finally {

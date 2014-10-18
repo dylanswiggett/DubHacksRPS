@@ -13,7 +13,9 @@ var Player = (function() {
   Player.prototype.doFrame = function() {
     this.x += this.vx;
     this.y += this.vy;
-  
+  };
+
+  Player.prototype.doPlayerFrame = function() {
     this.vx *= FRICTION;
     this.vy *= FRICTION;
   };
