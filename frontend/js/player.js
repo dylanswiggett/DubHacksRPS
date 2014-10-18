@@ -7,6 +7,7 @@ var Player = (function() {
     this.vy = 0;
     this.width = 48;
     this.height = 48;
+    this.health = 0;
     this.type = 'Rock';
     this._game = game;
 
@@ -91,7 +92,11 @@ var Player = (function() {
   };
 
   Player.prototype.setType = function(type) {
-    if(type != null) this.type = type;
+    if(type != null && type != this.type) {
+      this.type = type;
+      var metaInfo  = getPlayerMetaInfo()[type]
+      this.maxHealth = metaInfo && +metaInfo.Health
+    }
   };
 
   Player.prototype.setHealth = function(health) {

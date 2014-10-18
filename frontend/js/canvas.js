@@ -40,6 +40,7 @@ function startRenderCycle(game, time) {
       var img = game.image(player.type);
       if(img) {
         ctx.drawImage(img, renderX, renderY, 48, 48);
+        ctx.arc(renderX + player.width / 2, renderY + player.height / 2, 24, 0, 2*Math.PI*player.health/player.maxHealth);
       } else {
         ctx.fillRect(renderX, renderY, 48, 48);
       }
