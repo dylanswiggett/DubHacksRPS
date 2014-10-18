@@ -19,7 +19,11 @@ public class Arena {
 	
 	public void removePlayer(WebSocket playerSocket) {
 		System.out.println("Player disconnected.");
-		players.remove(playerSocket);
+		Player p = players.remove(playerSocket);
+		Message disconnectmsg = new Message("playerdisconnect", p.getId(), null);
+		for (Player player : players.values())
+			if (player != p)
+				player.sendMessage(disconnectmsg);
 	}
 	
 	public void processPlayerMessage(WebSocket playerSocket, Message msg) {
@@ -28,6 +32,10 @@ public class Arena {
 		case "join":
 			p.sendMessage(new Message("setid", p.getId(), null));
 			System.out.println("Player connected: " + p.getId());
+			Message connectmsg = new Message("playerconnect", p.getId(), null);
+			for (Player player : players.values())
+				if (player != p)
+					player.sendMessage(connectmsg);
 			break;
 		case "p":
 			JSONArray pos = (JSONArray) msg.getData();
