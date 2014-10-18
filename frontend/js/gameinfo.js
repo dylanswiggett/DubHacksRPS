@@ -2,7 +2,7 @@
 function playableTypes(pmi) {
   var types = [];
   for(var k in pmi) {
-    if(pmi[k].Object == 'Player' && !pmi[k].Combo) {
+    if(pmi[k].Object == 'Player') {
       console.log("Can play as", k);
       types.push(k);
     }

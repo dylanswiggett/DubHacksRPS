@@ -9,6 +9,7 @@ function Game() {
   this._players.forEach = forEach;
   this._projectiles = {};
   this._projectiles.forEach = forEach;
+  this._images = {};
 
   this._eventStream = new EventEmitter();
 }
@@ -75,11 +76,13 @@ Game.prototype.start = function() {
       el.setAttribute('height', 48);
       el.setAttribute('src', "assets/textures/players/"+playableType+".png")
       el.setAttribute('alt', playableType);
+      el.setAttribute('id', 'img-'+playableType)
       el.onmouseover = setClasses(playableType);
       el.onmouseout = removeClasses;
       el.onclick = function(e) {
         self.player().setType(e.target.getAttribute('alt'))
       }
+      self._images[playableType] = el;
       typeSelector.appendChild(el);
     });
   });
@@ -158,8 +161,8 @@ Game.prototype.start = function() {
     if(msg.id != self._playerID) {
       player.setPosition(msg.d.x, msg.d.y);
       player.setVelocity(msg.d.vx, msg.d.vy);
+      player.setType(msg.d.type);
     }
-    player.setType(msg.d.type);
     player.setHealth(msg.h);
   });
 
@@ -229,3 +232,7 @@ Game.prototype.on = function(type, f) {
   this._eventStream.addListener(type, f);
   return this;
 };
+
+Game.prototype.image = function(type) {
+  return this._images[type];
+}
