@@ -22,9 +22,7 @@ Game.prototype.start = function() {
   requestAnimationFrame(startRenderCycle.bind(null, self));
 
   setInterval(function() {
-    self.players().forEach(function(p) {
-      p.sendMessage(socket);
-    });
+    self.player().sendMessage(socket);
   }, 100);
 
   //Movement Events

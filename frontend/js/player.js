@@ -8,16 +8,24 @@ var Player = (function() {
     this.x = x;
     this.y = y;
     this.type = 'dead';
+
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    this.color = color;
   }
 
   Player.prototype.doFrame = function() {
     this.x += this.vx;
     this.y += this.vy;
+    this.vx *= FRICTION;
+    this.vy *= FRICTION;
   };
 
   Player.prototype.doPlayerFrame = function() {
-    this.vx *= FRICTION;
-    this.vy *= FRICTION;
   };
 
   Player.prototype.move = function(dx, dy) {
