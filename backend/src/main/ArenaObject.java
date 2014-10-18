@@ -6,6 +6,7 @@ import org.json.JSONObject;
 public class ArenaObject {
 	private String type;
 	private double x, y, width, height;
+	private BoundingBox box;
 	
 	public ArenaObject(String type, double x, double y, double width, double height) {
 		this.type = type;
@@ -13,11 +14,12 @@ public class ArenaObject {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.box = new BoundingBox(x, y, width, height);
 	}
 	
 	public boolean checkPlayerCollision(Player p) {
-		System.out.println("checkPlayerCollision not implemented.");
-		return false;
+		BoundingBox playerBox = p.getBoundingBox();
+		return box.intersect(playerBox);
 	}
 	
 	public Message getInitMessage() {

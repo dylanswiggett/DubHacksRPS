@@ -76,6 +76,10 @@ public class Player {
 		return data;
 	}
 	
+	public BoundingBox getBoundingBox() {
+		return new BoundingBox(x, y, 1, 1);
+	}
+	
 	public void sendMessage(Message msg) {
 		socket.send(msg.toString());
 	}
