@@ -23,4 +23,4 @@ Sockets.connect().then(function(socket) {
   socket.onmessage = function(a) {
     console.log(a);
   };
-});
+}).catch(console.error);
