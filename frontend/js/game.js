@@ -292,6 +292,5 @@ Game.prototype.on = function(type, f) {
 };
 
 Game.prototype.image = function(type) {
-  console.log("getting image for", type)
   return this._images[type];
 }

@@ -33,8 +33,35 @@ function startRenderCycle(game, time) {
         renderY = (player.y + player.renderY) / 2;
       }
       if(player.meleeFrame) {
-        ctx.fillRect(renderX + 12 + player.meleeDirX * 5 * player.meleeFrame,
-                     renderY + 12 + player.meleeDirY * 5 * player.meleeFrame, 24, 24);
+        var img = game.image(player.getMeleeType());
+        if(img) {
+          function rotateAndPaintImage ( context, image, angleInRad , positionX, positionY, axisX, axisY ) {
+            context.save();
+            context.translate( positionX + axisX/2, positionY + axisY/2);
+            context.rotate( angleInRad );
+            context.translate( axisX/2, axisY/2 );
+            context.drawImage( image, -axisX, -axisY );
+            context.restore();
+          }
+          var angle;
+          if(player.meleeDirX == -1) {
+            angle = Math.PI;
+          } else if(player.meleeDirX == 1) {
+            angle = 0;
+          } else if(player.meleeDirY == -1) {
+            angle = 3*Math.PI/2;
+          } else if(player.meleeDirY == 1) {
+            angle = Math.PI/2;
+          }
+          rotateAndPaintImage(ctx, img, angle, renderX + player.meleeDirX * 6 * player.meleeFrame,
+            renderY + player.meleeDirY * 6 * player.meleeFrame, 48, 48);
+          /*ctx.drawImage(img, renderX + player.meleeDirX * 5 * player.meleeFrame,
+                     renderY + player.meleeDirY * 5 * player.meleeFrame, 48, 48);*/
+        } else {
+          ctx.fillRect(renderX + player.meleeDirX * 5 * player.meleeFrame,
+                     renderY + player.meleeDirY * 5 * player.meleeFrame, 48, 48);
+        }
+
       }
       var img = game.image(player.type);
       if(img) {
@@ -60,6 +87,7 @@ function startRenderCycle(game, time) {
     });
 
     game.projectiles().forEach(function(proj) {
+      var img = game.image(proj.type);
       ctx.fillStyle = 'black';
       proj.doFrame(dt);
 
@@ -72,7 +100,12 @@ function startRenderCycle(game, time) {
         renderY = (proj.y + proj.renderY) / 2;
       }
 
-      ctx.fillRect(renderX, renderY, 20, 20);
+      if(img) {
+        ctx.drawImage(img, renderX, renderY, 20, 20);
+      } else {
+        ctx.fillRect(renderX, renderY, 20, 20);
+      }
+
     });
 
     ctx.fillStyle = 'black'

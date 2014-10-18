@@ -94,15 +94,23 @@ var Player = (function() {
   Player.prototype.setType = function(type) {
     if(type != null && type != this.type) {
       this.type = type;
-      this.getMaxHealth();
+      this.getMaxHealth(true);
+      this.getMeleeType(true);
     }
   };
 
-  Player.prototype.getMaxHealth = function() {
-    if(this.maxHealth) return this.maxHealth;
+  Player.prototype.getMaxHealth = function(refresh) {
+    if(!refresh && this.maxHealth) return this.maxHealth;
     var metaInfo  = getPlayerMetaInfo()[this.type]
     this.maxHealth = metaInfo && +metaInfo.Health
     return this.maxHealth;
+  };
+
+  Player.prototype.getMeleeType = function(refresh) {
+    if(!refresh && this.meleeImage) return this.maxHealth;
+    var metaInfo = getPlayerMetaInfo()[this.type];
+    this.meleeType = metaInfo && metaInfo.MeleeType;
+    return this.meleeType;
   };
 
   Player.prototype.setHealth = function(health) {
