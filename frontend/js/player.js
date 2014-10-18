@@ -1,5 +1,5 @@
-var MAX_SPEED = 3;
-var FRICTION = 0.97;
+var MAX_SPEED = 5;
+var FRICTION = 0.9;
 
 var Player = (function() {
   function Player(x, y) {
