@@ -1,6 +1,7 @@
 package main;
 
 import org.java_websocket.WebSocket;
+import org.json.JSONObject;
 
 public class Player {
 	private static int id_counter = 0;
@@ -64,6 +65,15 @@ public class Player {
 	
 	public double getY() {
 		return y;
+	}
+	
+	public JSONObject getStatusData() {
+		JSONObject data = new JSONObject();
+		data.put("x", x);
+		data.put("y", y);
+		data.put("type", "dead");
+		data.put("h", 0);
+		return data;
 	}
 	
 	public void sendMessage(Message msg) {

@@ -69,7 +69,7 @@ public class Arena {
 			for (ArenaObject obj : arenaObjects)
 				p.sendMessage(obj.getInitMessage());
 			// TODO: Broadcast player states to new player
-			p.sendMessage(new Message("setid", p.getId(), null));
+			p.sendMessage(new Message("setid", p.getId(), p.getStatusData()));
 			System.out.println("Player connected: " + p.getId());
 			JSONArray newpos = new JSONArray();
 			newpos.put(p.getX());
