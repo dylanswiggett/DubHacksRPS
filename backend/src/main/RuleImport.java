@@ -102,11 +102,11 @@ public class RuleImport {
 				for (int i = 0; i < row.size(); i++) {
 					if (i == 0) {
 						key = row.get(i);
-						ruleMap.put(key, new HashMap<String, String>());
+						metaMap.put(key, new HashMap<String, String>());
 					} else {
-						Map<String, String> rowRuleMap = ruleMap.get(key);
+						Map<String, String> rowRuleMap = metaMap.get(key);
 						rowRuleMap.put(paramList.get(i), row.get(i));
-						ruleMap.put(key, rowRuleMap);
+						metaMap.put(key, rowRuleMap);
 					}
 				}
 			}
@@ -115,7 +115,7 @@ public class RuleImport {
 		}
 		
 
-		return ruleMap;
+		return metaMap;
 	}
 	
 	/**
@@ -132,6 +132,7 @@ public class RuleImport {
 		} else if (basic && ruleMap != null) {
 			return Collections.unmodifiableMap(ruleMap);
 		} else if (basic && metaMap == null) {
+			System.out.println("here");
 			metaMap = new HashMap<String, Map<String, String>>();
 			metaMap = importMap(false);
 			return Collections.unmodifiableMap(metaMap);
@@ -142,7 +143,7 @@ public class RuleImport {
 		
 	}
 	
-	public static JSONObject toJSON() {
+	public static JSONObject ruleMapToJSON() {
 		JSONObject obj = new JSONObject();
 		obj.put("evt", "playerTypes");
 		obj.put("id", -1);
@@ -161,6 +162,29 @@ public class RuleImport {
 		}
 		
 		obj.put("d", data);
+		return obj;
+	}
+	
+	public static JSONObject metaMapToJSON() {
+		JSONObject obj = new JSONObject();
+		obj.put("evt", "playerMetaInfo");
+		obj.put("id", -1);
+		
+		JSONObject data = new JSONObject();
+		Set<String> types = metaMap.keySet();
+		for (String type : types) {
+			JSONObject info = new JSONObject();
+			Map<String, String> rowInfoMap = metaMap.get(type);
+			Set<String> rowKeys = rowInfoMap.keySet();
+			for (String rowKey : rowKeys) {
+				String infoValue = rowInfoMap.get(rowKey);
+				info.put(rowKey, infoValue);
+			}
+			data.put(type, info);
+		}
+		
+		obj.put("d", data);
+		System.out.println(obj);
 		return obj;
 	}
 }
