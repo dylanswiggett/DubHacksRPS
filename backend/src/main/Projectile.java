@@ -61,6 +61,7 @@ public class Projectile {
 		obj.put("vx", vx);
 		obj.put("vy", vy);
 		obj.put("projectileid", projectileId);
+		obj.put("starttime", System.currentTimeMillis());
 		return new Message("projectile", sourceId, obj);
 	}
 	
