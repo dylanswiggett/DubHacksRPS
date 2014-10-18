@@ -57,8 +57,9 @@ public class Player {
 	
 	public void setType(String type) {
 		this.type = type;
-		this.health =
-				Double.parseDouble(RuleImport.getMap(false).get(type).get("Health"));
+		if (RuleImport.getMap(false).containsKey(type))
+			this.health =
+					Double.parseDouble(RuleImport.getMap(false).get(type).get("Health"));
 	}
 	
 	public void setPosition(double x, double y) {
