@@ -89,6 +89,8 @@ public class Arena {
 			 * the game.
 			 */
 			// Send current arena state
+			p.sendMessage(RuleImport.ruleMapMessage());
+			p.sendMessage(RuleImport.metaMapMessage());
 			p.sendMessage(getArenaInitMessage());
 			for (ArenaObject obj : arenaObjects)
 				p.sendMessage(obj.getInitMessage());
