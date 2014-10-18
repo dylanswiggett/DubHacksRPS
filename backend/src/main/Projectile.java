@@ -27,12 +27,17 @@ public class Projectile {
 		case 'd':
 			vx = 0;
 			vy = v;
+			break;
 		case 'r':
 			vx = v;
 			vy = 0;
+			break;
 		case 'l':
 			vx = -v;
 			vy = 0;
+			break;
+		default:
+			System.err.println("Unrecognized direction: " + this.dir);
 		}
 	}
 	
