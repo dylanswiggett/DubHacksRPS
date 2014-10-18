@@ -5,6 +5,8 @@ import org.json.JSONObject;
 public class Projectile {
 	private static int idCount = 0;
 	
+	private static final int DIMENSION = 15;
+	
 	private String type;
 	private double x, y, vx, vy;
 	private char dir;
@@ -59,5 +61,26 @@ public class Projectile {
 		obj.put("vy", vy);
 		obj.put("projectileid", projectileId);
 		return new Message("projectile", sourceId, obj);
+	}
+	
+	public int getShooterId() {
+		return sourceId;
+	}
+	
+	public int getId() {
+		return projectileId;
+	}
+	
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
+	
+	public BoundingBox getBoundingBox() {
+		return new BoundingBox(x - DIMENSION, y - DIMENSION,
+				DIMENSION * 2, DIMENSION * 2);
 	}
 }
