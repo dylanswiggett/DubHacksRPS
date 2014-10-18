@@ -20,8 +20,6 @@ function currentServerTime() {
   return Date.now() - serverTimeDelta;
 }
 
-var scheduledTime = Date.now() + 20000;
-
 Game.prototype.start = function() {
   var self = this;
 
@@ -49,14 +47,11 @@ Game.prototype.start = function() {
     var now = Date.now();
     var rtt = now - msg.d.you;
     if(rtt < min_rtt) {
+      console.log("new min_rtt", rtt);
       min_rtt = rtt;
       var bestServerTime = msg.d.me + rtt / 2;
       serverTimeDelta = now - bestServerTime;
     }
-  });
-
-  self.on('scheduletest', function(msg) {
-    scheduledTime = msg.d.when;
   });
 
   self.on('playertypes', function(msg) {
@@ -65,7 +60,6 @@ Game.prototype.start = function() {
 
   self.on('playermetainfo', function(msg) {
     var pmi = msg.d;
-    console.log(msg);
     var playable = playableTypes(pmi);
     setPlayerMetaInfo(pmi);
 
@@ -78,7 +72,6 @@ Game.prototype.start = function() {
           Array.prototype.slice.call(e.target.parentNode.children, 0).forEach(function(child) {
             var interaction = playerTypes[type][child.getAttribute('alt')]
             child.className = 'int'+interaction;
-            console.log(child);
           });
         }
       }
@@ -182,7 +175,6 @@ Game.prototype.start = function() {
   });
 
   self.on('arenaobject', function(msg) {
-    console.log('object', msg);
     self._walls.push(new Wall(msg.d.x, msg.d.y, msg.d.w, msg.d.h));
   });
 
@@ -242,7 +234,6 @@ Game.prototype.player = function(id) {
     if(this._playerID != null) {
       return this._players[this._playerID];
     } else {
-      console.log("Player not connected yet!");
       function noop(){}
       return {doPlayerFrame: noop, sendMessage: noop, accelerate: noop};
     }
