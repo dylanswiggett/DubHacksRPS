@@ -32,7 +32,12 @@ public class Arena {
 		
 		new Thread() {
 			public void run() {
-				handleProjectiles();
+				try {
+					handleProjectiles();
+				} catch (Exception e) {
+					e.printStackTrace();
+					// Don't break projectiles!
+				}
 			}
 		}.start();
 	}
