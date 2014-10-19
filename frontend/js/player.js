@@ -71,8 +71,9 @@ var Player = (function() {
   }
 
   Player.prototype.accelerate = function(x, y) {
-    this.vx = Math.max(Math.min(MAX_SPEED, this.vx + x), -MAX_SPEED);
-    this.vy = Math.max(Math.min(MAX_SPEED, this.vy + y), -MAX_SPEED);
+    var MAX = this.getMaxVelocity();
+    this.vx = Math.max(Math.min(MAX, this.vx + x), -MAX);
+    this.vy = Math.max(Math.min(MAX, this.vy + y), -MAX);
     this.doSend = true;
   }
 
@@ -96,6 +97,7 @@ var Player = (function() {
       this.type = type;
       this.getMaxHealth(true);
       this.getMeleeType(true);
+      this.getMaxVelocity(true);
     }
   };
 
@@ -111,6 +113,13 @@ var Player = (function() {
     var metaInfo = getPlayerMetaInfo()[this.type];
     this.meleeType = metaInfo && metaInfo.MeleeType;
     return this.meleeType;
+  };
+
+  Player.prototype.getMaxVelocity = function(refresh) {
+    if(!refresh && this.maxVelocity) return this.maxVelocity;
+    var metaInfo = getPlayerMetaInfo()[this.type];
+    this.maxVelocity = metaInfo && +metaInfo.Velocity;
+    return this.maxVelocity;
   };
 
   Player.prototype.setHealth = function(health) {

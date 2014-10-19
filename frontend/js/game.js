@@ -132,7 +132,7 @@ Game.prototype.start = function() {
   self.on('fireU', function() {
     if(!game.player().meleeFrame) {
       socket.send('directional', {
-        dir: 'u', x: self.player().x, y: self.player().y
+        dir: 'u', x: self.player().x + self.player().width / 2, y: self.player().y + self.player().height / 2
       });
     }
   });
@@ -140,7 +140,7 @@ Game.prototype.start = function() {
   self.on('fireD', function() {
     if(!game.player().meleeFrame) {
       socket.send('directional', {
-        dir: 'd', x: self.player().x, y: self.player().y
+        dir: 'd', x: self.player().x + self.player().width / 2, y: self.player().y + self.player().height / 2
       });
     }
   });
@@ -148,7 +148,7 @@ Game.prototype.start = function() {
   self.on('fireL', function() {
     if(!game.player().meleeFrame) {
       socket.send('directional', {
-        dir: 'l', x: self.player().x, y: self.player().y
+        dir: 'l', x: self.player().x + self.player().width / 2, y: self.player().y + self.player().height / 2
       });
     }
   });
@@ -156,7 +156,7 @@ Game.prototype.start = function() {
   self.on('fireR', function() {
     if(!game.player().meleeFrame) {
       socket.send('directional', {
-        dir: 'r', x: self.player().x, y: self.player().y
+        dir: 'r', x: self.player().x + self.player().width / 2, y: self.player().y + self.player().height / 2
       });
     }
   });
@@ -229,6 +229,7 @@ Game.prototype.start = function() {
     projectile.setPosition(msg.d.x, msg.d.y);
     projectile.setVelocity(msg.d.vx, msg.d.vy);
     projectile.setType(msg.d.type);
+    projectile.dir = msg.d.dir;
     projectile.doFrame(currentServerTime() - msg.d.starttime);
   });
 
